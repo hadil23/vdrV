@@ -1,0 +1,10 @@
+<nz-upload
+  nzAction="https://httpbin.org/post"
+  [nzHeaders]="{ authorization: 'authorization-text' }"
+  (nzChange)="handleChange($event)"
+>
+  <button nz-button>
+    <span nz-icon nzType="upload"></span>
+    Click to Upload
+  </button>
+</nz-upload>

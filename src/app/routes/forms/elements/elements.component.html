@@ -1,0 +1,61 @@
+
+
+<div class="row mr-10">
+  <div class="col-sm-12">
+    <mat-card>
+
+      <mat-card-content>
+        <form [formGroup]="reactiveForm1" class="form-field-full">
+          <mat-form-field>
+            <mat-label>Data Room Name</mat-label>
+            <input matInput placeholder="virtualDataRoomTitle" formControlName="virtualDataRoomTitle" required>
+            @if (reactiveForm1.get('virtualDataRoomTitle')?.invalid) {
+              <mat-error>{{'validations.required' | translate}}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Access</mat-label>
+            <mat-select required formControlName="access" required>
+              <mat-option>-- None --</mat-option>
+              <mat-option value="1">Only people I specify</mat-option>
+              <mat-option value="2">Anyone with the link</mat-option>
+            </mat-select>
+            @if (reactiveForm1.get('access')?.invalid) {
+              <mat-error>{{'validations.required' | translate}}</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Default Guest Permission</mat-label>
+            <mat-select required formControlName="defaultGuestPermission" required>
+              <mat-option value="1">No Access</mat-option>
+              <mat-option value="2">Only View</mat-option>
+              <mat-option value="3">Download</mat-option>
+              <mat-option value="4">Full Access (Edit)</mat-option>
+            </mat-select>
+            @if (reactiveForm1.get('defaultGuestPermission')?.invalid) {
+              <mat-error>{{'validations.required' | translate}}</mat-error>
+            }
+          </mat-form-field>
+        
+
+
+        
+
+          <form [formGroup]="reactiveForm1">
+           
+            <app-forms-datetime formControlName="Data Room Expiry" formControlName="chosenDateTime" name="chosenDateTime"></app-forms-datetime>
+           
+          </form>
+
+          <div class="m-t-8 d-flex justify-content-end">
+            <button mat-button class="m-x-8" type="button">Cancel</button>
+            <button mat-flat-button>Create </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+ 
+</div>
