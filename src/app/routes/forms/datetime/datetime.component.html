@@ -1,14 +1,9 @@
-
-
-      <form [formGroup]="group">
-        <mat-form-field>
-          <mat-label>Data Room Expiry</mat-label>
-          <input [mtxDatetimepicker]="touch" [min]="min" formControlName="touch" matInput required>
-          <mtx-datetimepicker-toggle [for]="touch" matSuffix />
-          <mtx-datetimepicker #touch mode="portrait" [timeInterval]="5" [touchUi]="true" />
-          @if (group.get('touch')?.errors?.required) {
-            <mat-error>required</mat-error>
-          }
-        </mat-form-field>
-      </form>
-    
+<form [formGroup]="group">
+  <mat-form-field>
+    <mat-label>Data Room Expiry</mat-label>
+    <input [mtxDatetimepicker]="touch" [min]="min" formControlName="touch" matInput required>
+    <mtx-datetimepicker-toggle [for]="touch" matSuffix></mtx-datetimepicker-toggle>
+    <mtx-datetimepicker #touch mode="portrait" [timeInterval]="5" [touchUi]="true"></mtx-datetimepicker>
+    <mat-error *ngIf="group.get('touch')?.errors?.required">required</mat-error>
+  </mat-form-field>
+</form>

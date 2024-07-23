@@ -1,0 +1,30 @@
+.add-guest-card {
+  max-width: 400px;
+  margin: auto;
+}
+
+.add-guest-card mat-card-header {
+  text-align: center;
+}
+
+.add-guest-card mat-card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+button[mat-button] {
+  color: #1976d2; /* Change the color to match your theme */
+}
+
+button[mat-flat-button] {
+  background-color: #1976d2; /* Change the background color to match your theme */
+  color: white;
+}
+
+  

@@ -1,5 +1,6 @@
 <nz-upload
-  nzAction="https://httpbin.org/post"
+[nzCustomRequest]="customReq"
+ 
   [nzHeaders]="{ authorization: 'authorization-text' }"
   (nzChange)="handleChange($event)"
 >

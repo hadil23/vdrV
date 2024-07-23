@@ -1,0 +1,50 @@
+<div class="row mr-10">
+    <div class="col-sm-12">
+      <mat-card>
+        <mat-card-content>
+          <form [formGroup]="reactiveForm1" class="form-field-full" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+              <mat-label>Data Room Name</mat-label>
+              <input matInput placeholder="Enter the name" formControlName="virtualDataRoomTitle" required>
+              <mat-error *ngIf="reactiveForm1.get('virtualDataRoomTitle')?.hasError('required') && (reactiveForm1.get('virtualDataRoomTitle')?.touched || reactiveForm1.get('virtualDataRoomTitle')?.dirty)">
+                {{ 'validations.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="fill">
+              <mat-label>Access</mat-label>
+              <mat-select required formControlName="access">
+                <mat-option value="">-- None --</mat-option>
+                <mat-option value="specified_people">Only people I specify</mat-option>
+                <mat-option value="Anyone with the link">Anyone with the link</mat-option>
+              </mat-select>
+              <mat-error *ngIf="reactiveForm1.get('access')?.hasError('required') && (reactiveForm1.get('access')?.touched || reactiveForm1.get('access')?.dirty)">
+                {{ 'validations.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+  
+            <mat-form-field appearance="fill">
+              <mat-label>Default Guest Permission</mat-label>
+              <mat-select required formControlName="defaultGuestPermission">
+                <mat-option value="No-Access">No Access</mat-option>
+                <mat-option value="View">Only View</mat-option>
+                <mat-option value="download">Download</mat-option>
+                <mat-option value="Edit">Full Access (Edit)</mat-option>
+              </mat-select>
+              <mat-error *ngIf="reactiveForm1.get('defaultGuestPermission')?.hasError('required') && (reactiveForm1.get('defaultGuestPermission')?.touched || reactiveForm1.get('defaultGuestPermission')?.dirty)">
+                {{ 'validations.required' | translate }}
+              </mat-error>
+            </mat-form-field>
+  
+            <app-forms-datetime formControlName="chosenDateTime"></app-forms-datetime>
+  
+            <div class="m-t-8 d-flex justify-content-end">
+              <button mat-button class="m-x-8" type="button" (click)="onCancel()">Cancel</button>
+              <button mat-flat-button type="submit" >Create</button>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  

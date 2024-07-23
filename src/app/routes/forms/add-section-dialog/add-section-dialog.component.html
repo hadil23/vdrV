@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Add New Section</h2>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput [(ngModel)]="newPanelTitle" placeholder="Enter section title">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="newPanelTitle" cdkFocusInitial>Add</button>
+</div>
