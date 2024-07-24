@@ -2,8 +2,8 @@ import { User } from './interface';
 
 export const admin: User = {
   id: 1,
-  name: 'Zongbin',
-  email: 'nzb329@163.com',
+  name: 'Hadil Afi',
+  email: 'hadilafi22@gmail.com',
   avatar: 'images/avatar.jpg',
 };
 
