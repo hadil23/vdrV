@@ -93,7 +93,7 @@ private nzDrawerService = inject (NzDrawerService);
       const virtualRoomIdString = params['id'];
       const permissionParam = params['defaultGuestPermission'];
       if (permissionParam) {
-        switch (permissionParam) {
+        switch (permissionParam.toLowerCase()) {
           case 'download':
             this.defaultGuestPermission = Permission.Download;
             break;
@@ -107,18 +107,11 @@ private nzDrawerService = inject (NzDrawerService);
             this.defaultGuestPermission = Permission.NoAccess;
         }
       } else {
-        this.defaultGuestPermission = Permission.NoAccess; // set default value if parameter is not present
-      }
-  
-      console.log('VirtualRoomId:', virtualRoomIdString);
-      const virtualRoomId = parseInt(virtualRoomIdString, 10);
-      if (!isNaN(virtualRoomId)) {
-        this.virtualRoomService.setVirtualRoomId(virtualRoomId);
-      } else {
-        console.error('Invalid virtualRoomId:', virtualRoomIdString);
+        this.defaultGuestPermission = Permission.Edit;
       }
     });
   }
+  
   
   
   
@@ -223,7 +216,7 @@ private nzDrawerService = inject (NzDrawerService);
   }
 
   downloadAllFiles(): void {
-    if (!this.canDownloadFiles() && this.defaultGuestPermission!== Permission.Download) {
+    if (!this.canDownloadFiles() && this.defaultGuestPermission!== Permission.Download && this.defaultGuestPermission!== Permission.Edit) {
       alert('Denied permission to download files.');
       return;
     }
