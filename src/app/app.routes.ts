@@ -38,6 +38,10 @@ export const routes: Routes = [
         loadChildren: () => import('./routes/forms/forms.routes').then(m => m.routes),
       },
       {
+        path: 'chatbot',
+        loadChildren: () => import('./routes/chatbot/chatbot.routes').then(m => m.ChatbotRoutingModule),
+      },
+      {
         path: 'tables',
         loadChildren: () => import('./routes/tables/tables.routes').then(m => m.routes),
       },

@@ -1,0 +1,16 @@
+<div class="chat-container">
+    <div class="chat-box">
+      <div class="message">
+        <strong>TafBot</strong>
+       <p>Hi, I'm a E-Tafakna bot . How can I help you?</p>
+
+        <p>{{ botReply }}</p>
+      </div>
+      <div class="user-input">
+        <input [(ngModel)]="userMessage" placeholder="Type your message" />
+        <button (click)="sendMessage()">Send</button>
+      </div>
+    </div>
+    
+  </div>
+  

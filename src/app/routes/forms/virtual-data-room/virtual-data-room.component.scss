@@ -73,3 +73,21 @@ mat-accordion mat-expansion-panel:hover {
 i.fas {
   font-size: 16px;
 }
+.custom-drawer .ant-drawer-content-wrapper {
+  height: 100vh !important;  /* Force la hauteur de l'écran */
+}
+
+.custom-drawer .ant-drawer-content {
+  height: 100vh !important;  /* Force la hauteur de l'écran */
+}
+
+.custom-drawer .ant-drawer-mask {
+  background-color: rgba(0, 0, 0, 0.5) !important;  /* Force l'opacité */
+}
+
+.custom-drawer .ant-drawer-body {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+

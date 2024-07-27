@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PageHeaderComponent } from '@shared';
 import { InvitationService } from '../services/invitation.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-add-new-guest',
@@ -18,6 +19,7 @@ import { InvitationService } from '../services/invitation.service';
     MatCardModule,
     FormlyModule,
     PageHeaderComponent,
+
   ],
   templateUrl: './add-new-guest.component.html',
   styleUrls: ['./add-new-guest.component.scss']
@@ -60,13 +62,16 @@ export class AddNewGuestComponent implements OnInit {
     },
   ];
 
-  virtualDataRoomId: number =192;
-  userId: number = 17;
-
+  userId: number = 17; 
+  virtualDataRoomId='';
+  virtualDataRoomTitle: string ='';
+  permissionParam: string ='';
   ngOnInit(): void {
     // Récupérer l'ID de la Virtual Data Room depuis les paramètres de l'URL
     this.route.queryParams.subscribe(params => {
       this.virtualDataRoomId = params['id'];
+      this.virtualDataRoomTitle = params['title'];
+       this.permissionParam = params['defaultGuestPermission'];
     });
   }
 
@@ -83,7 +88,7 @@ export class AddNewGuestComponent implements OnInit {
       this.invitationService.createInvitation(invitationData).subscribe(
         response => {
           console.log('Invitation created:', response);
-          this.router.navigate(['/verify-email'], { queryParams: { id: this.virtualDataRoomId } });
+          this.router.navigate(['/forms/verify-email'], { queryParams: { id: this.virtualDataRoomId , title:this.virtualDataRoomTitle , defaultGuestPermission:this.permissionParam } }); 
         },
         error => {
           console.error('Error creating invitation:', error);

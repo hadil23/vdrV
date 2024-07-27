@@ -11,7 +11,7 @@ export class VerifyEmailService {
 
   constructor(private http: HttpClient) { }
 
-  verifyEmail(email: string, code: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/test`, { email, code });
+  verifyEmail(email: string, code: string , virtualDataRoomId: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/test`, { email, code,virtualDataRoomId });
   }
 }

@@ -1,0 +1,39 @@
+/* Styles pour le bouton */
+button[nz-button] {
+    background-color: #007bff; /* Couleur de fond */
+    border: none; /* Pas de bordure */
+    color: white; /* Couleur du texte */
+    padding: 10px 20px; /* Padding pour rendre le bouton plus grand */
+    font-size: 16px; /* Taille de la police */
+    cursor: pointer; /* Curseur de la main au survol */
+    border-radius: 5px; /* Coins arrondis */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre pour donner un effet 3D */
+    display: flex; /* Flexbox pour centrer l'icône */
+    align-items: center; /* Centre verticalement l'icône */
+  }
+  
+  /* Styles pour l'icône (si vous en avez une dans le bouton) */
+  button[nz-button] i {
+    margin-right: 8px; /* Espace entre l'icône et le texte */
+    font-size: 20px; /* Taille de l'icône */
+  }
+  
+  /* Styles pour le drawer */
+  .nz-drawer {
+
+    height: 600px;
+    &-wrapper {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ombre pour le drawer */
+    }
+  
+    &-header {
+      background-color: #007bff; /* Couleur de fond de l'en-tête */
+      color: white; /* Couleur du texte de l'en-tête */
+      padding: 16px; /* Padding pour l'en-tête */
+    }
+  
+    &-body {
+      padding: 16px; /* Padding pour le corps du drawer */
+    }
+  }
+  

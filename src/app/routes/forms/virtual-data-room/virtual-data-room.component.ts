@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // Importez MatDialogModule ici
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,6 +16,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common'; 
 import { AddNewGuestComponent } from '../add-new-guest/add-new-guest.component';
+import { DrawerService } from 'app/routes/chatbot/drawer.service';
+import { NzDrawerModule } from 'ng-zorro-antd/drawer';
+import { NzDrawerService } from 'ng-zorro-antd/drawer';
+import { ChatbotComponent } from 'app/routes/chatbot/chat-bot/chat-bot.component';
+import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 
 export enum Permission {
   NoAccess = 'No Access',
@@ -29,14 +34,17 @@ export enum Permission {
   standalone: true,
   imports: [
     MatExpansionModule,
+    NzDrawerModule,
     CommonModule,
     NzDemoUploadBasicComponent,
     MatDialogModule, 
     DragDropModule,
     FormsModule, 
     MatFormFieldModule, 
+    AddSectionDialogComponent,
     MatInputModule,
   ],
+  providers:[NzDrawerService],
   templateUrl: './virtual-data-room.component.html',
   styleUrls: ['./virtual-data-room.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,21 +52,28 @@ export enum Permission {
 export class VirtualDataRoomComponent implements OnInit {
   panelOpenState = signal(false);
   @ViewChild('addPanelDialog') addPanelDialog: any;
+  newPanelTitle: string = '';
 
-  virtualDataRoomTitle = signal('');
-  access = signal('');
-  defaultGuestPermission = signal<Permission>(Permission.Download);
-  expiryDate = signal<Date | null>(null);
+  @Input() virtualDataRoomTitle: string = '';
+  @Input() access: string = '';
+  @Input() defaultGuestPermission: Permission = Permission.Download; 
+
+
+
+
+
   panels = signal<Panel[]>([
-    { id: '1', title: 'Legal Documents', files: [] },
-    { id: '2', title: 'Financial Documents', files: [] },
-    { id: '3', title: 'Products', files: [] },
-    { id: '4', title: 'Intellectual Property', files: [] }
+    { id: '1', title: 'Legal Documents', files: [] , expanded: false},
+    { id: '2', title: 'Financial Documents', files: [] , expanded: false},
+    { id: '3', title: 'Products', files: [] ,expanded: false},
+    { id: '4', title: 'Intellectual Property', files: [],expanded: false }
   ]);
-
-  newPanelTitle = signal('');
  
 
+
+  private drawerService = inject(DrawerService);
+
+private nzDrawerService = inject (NzDrawerService);
   private router = inject(Router);
   private dialog = inject(MatDialog);
   private draftService = inject(DraftService);
@@ -66,18 +81,24 @@ export class VirtualDataRoomComponent implements OnInit {
   private virtualRoomService = inject(VirtualRoomService);
   private cloudinaryService = inject(CloudinaryService);
   private cd= inject(ChangeDetectorRef);
+  userId = '17';
+  panel: any;
+  
+ 
+
+  
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.virtualDataRoomTitle.set(params['title'] || '');
+      this.virtualDataRoomTitle = params['title'];
       const virtualRoomIdString = params['id'];
       const permissionParam = params['defaultGuestPermission'];
-
       if (permissionParam) {
-        this.defaultGuestPermission.set(permissionParam as Permission);
+        this.defaultGuestPermission = permissionParam as Permission; // cast to Permission enum
       } else {
-        this.defaultGuestPermission.set(Permission.NoAccess);
+        this.defaultGuestPermission = Permission.NoAccess; // set default value if parameter is not present
       }
-
+  
+      console.log('VirtualRoomId:', virtualRoomIdString);
       const virtualRoomId = parseInt(virtualRoomIdString, 10);
       if (!isNaN(virtualRoomId)) {
         this.virtualRoomService.setVirtualRoomId(virtualRoomId);
@@ -86,16 +107,32 @@ export class VirtualDataRoomComponent implements OnInit {
       }
     });
   }
+  
+  
+  
+  openDrawer(): void {
+    this.nzDrawerService.create({
+      nzTitle: '',
+      nzContent: ChatbotComponent,
+      nzPlacement: 'bottom',
+      nzClosable: true,
+      nzWidth: 400,  
+      nzHeight: '100vh',  
+      nzWrapClassName: 'custom-drawer',
+    });
+  }
+  
+  
  
+  
   createPanel(): void {
     this.virtualRoomService.getVirtualRoomId().subscribe(vdrId => {
       if (vdrId !== null) {
-        const panelTitle = this.newPanelTitle().trim();
+        const panelTitle = this.newPanelTitle.trim();
         if (panelTitle !== '') {
           this.virtualRoomService.createPanel(vdrId.toString(), panelTitle).subscribe(
             response => {
               console.log('Panel créé avec succès :', response);
-              this.panels.update(panels => [...panels, { id: response.id, title: panelTitle, files: [] }]);
             },
             error => {
               console.error('Erreur lors de la création du panel :', error);
@@ -107,16 +144,27 @@ export class VirtualDataRoomComponent implements OnInit {
       }
     });
   }
+
+
+
   addPanel(): void {
     const dialogRef = this.dialog.open(AddSectionDialogComponent, {
       width: '250px'
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        // Assurez-vous que l'objet ajouté respecte l'interface Panel
-        const currentPanels = this.panels();
-        this.panels.set([...currentPanels, { id: Date.now().toString(), title: result, files: [] }]);
+      if (result && result.trim() !== '') { // Vérifier si le résultat n'est pas vide
+        const newPanel: Panel = {
+          id: Date.now().toString(), // Générer un ID unique
+          title: result.trim(), // Nettoyer les espaces blancs
+          files: [] ,
+          expanded: false// Initialiser avec un tableau vide
+        };
+
+        // Mettre à jour le signal panels avec le nouveau panel
+        this.panels.update(panels => [...panels, newPanel]);
+      } else {
+        console.error('Le titre du panel est vide');
       }
     });
   }
@@ -130,21 +178,12 @@ export class VirtualDataRoomComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.panels.update(panels => [...panels, { id: Date.now().toString(), title: result, files: [] }]);
+        this.panels.update(panels => [...panels, { id: Date.now().toString(), title: result, files: [] ,expanded: false}]);
       }
     });
   }
 
-  loadPanels(): void {
-    fetch('/api/panels')
-      .then(response => response.json())
-      .then((panels: Panel[]) => {
-        this.panels.set(panels);
-      })
-      .catch(error => {
-        console.error('Erreur lors du chargement des panels:', error);
-      });
-  }
+ 
 
   dropFile(panel: Panel, event: CdkDragDrop<File[]>) {
     const previousIndex = event.previousContainer.data.indexOf(event.item.data);
@@ -155,79 +194,20 @@ export class VirtualDataRoomComponent implements OnInit {
     }
   }
 
-  addFileToPanel(panel: any, files: FileList) {
-    if (!this.canEdit()) {
-      alert('Denied permission...');
-      return;
-    }
+ 
 
-    const preset = 'ml_default';
-    const userId = '17';
-    const panelId = panel.id;
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-
-      this.cloudinaryService.uploadFile(file, preset)
-        .then((result) => {
-          console.log('File uploaded to Cloudinary:', result);
-
-          const fileUrl = result.secure_url;
-
-          fetch(`/api/files`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ fileUrl, userId, panelId })
-          })
-          .then(response => response.json())
-          .then((response) => {
-            console.log('File URL saved to database successfully:', response);
-          })
-          .catch((error) => {
-            console.error('Error saving file URL to database:', error);
-          });
-        })
-        .catch((error) => {
-          console.error('Error uploading file to Cloudinary:', error);
-        });
-    }
-  }
-
-  getFilesForPanel(panelId: string): void {
-    fetch(`/api/files?panel_id=${panelId}`)
-      .then(response => response.json())
-      .then((files: File[]) => {
-        console.log(`Fichiers pour le panel avec l'ID ${panelId}:`, files);
-      })
-      .catch(error => {
-        console.error(`Erreur lors de la récupération des fichiers pour le panel avec l'ID ${panelId}:`, error);
-      });
-  }
+  
 
   canEdit(): boolean {
-    return this.defaultGuestPermission() === Permission.Edit;
+    return this.defaultGuestPermission === Permission.Edit;
   }
 
-  onEditClick(): void {
-    if (!this.canEdit()) {
-      alert('Denied permission...');
-    } else {
-      this.goToDraft();
-    }
-  }
 
-  goToDraft(): void {
-    this.draftService.saveVirtualDataRooms({
-      title: this.virtualDataRoomTitle(),
-      panels: this.panels()
-    });
-    this.router.navigate(['/edit']);
-  }
+
 
   canDownloadFiles(): boolean {
-    return this.defaultGuestPermission() === Permission.Download || this.defaultGuestPermission() === Permission.Edit;
+    console.log('Checking download permission:', this.defaultGuestPermission);
+    return this.defaultGuestPermission === Permission.Download || this.defaultGuestPermission === Permission.Edit;
   }
 
   downloadAllFiles(): void {
@@ -264,25 +244,27 @@ export class VirtualDataRoomComponent implements OnInit {
     });
   }
 
-addNewSection(): void {
-  if (!this.canEdit()) {
-    alert('Denied permission...');
-    return;
-  }
-
-  const dialogRef = this.dialog.open(AddSectionDialogComponent, {
-    width: '250px',
-    data: { title: '' }
-  });
-
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      this.newPanelTitle.set(result); // Assurez-vous que newPanelTitle est un signal
-      this.panels.update(panels => [...panels, { id: Date.now().toString(), title: result, files: [] }]);
-      this.cd.detectChanges();
+  addNewSection(): void {
+    if (!this.canEdit()) {
+      alert('Denied permission...');
+      return;
     }
-  });
-}
+
+    const dialogRef = this.dialog.open(AddSectionDialogComponent, {
+      width: '250px',
+      data: { title: '' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.newPanelTitle = result;
+        this.panels.update(panels => [...panels, { id: Date.now().toString(), title: result, files: [] ,expanded: false}]);
+        
+        this.cd.detectChanges();
+      }
+    });
+  }
+  
 isDialogOpen = false;
 
 
@@ -304,22 +286,57 @@ isDialogOpen = false;
     array.splice(toIndex, 0, removed);
   }
  
+ 
+  addFileToPanel(panel: any, event: NzUploadChangeParam): void {
+    console.log('addFileToPanel called with panel:', panel);
+    console.log('addFileToPanel called with event:', event);
 
-  goToVirtualDataRoom() {
-    if (this.virtualDataRoomTitle().trim() === '') {
-      console.error('Le titre de la salle de données virtuelle est vide.');
+    if (!this.canEdit()) {
+      alert('Denied permission...');
       return;
     }
 
-    this.router.navigate(['/forms/virtual-data-room'], {
-      queryParams: {
-        title: this.virtualDataRoomTitle(),
-        id: this.virtualRoomService.getVirtualRoomId().toString(),
-        defaultGuestPermission: this.defaultGuestPermission()
+    const preset = 'ml_default';
+    const userId = '17';
+    const panelId = panel.id;
+
+    if (event.fileList) {
+      for (const file of event.fileList) {
+        if (file.originFileObj) {
+          const fileObject = file.originFileObj as File;
+          console.log('Uploading file:', fileObject.name);
+
+          this.cloudinaryService.uploadFile(fileObject, preset)
+            .then((result) => {
+              console.log('File uploaded to Cloudinary:', result);
+
+              const fileUrl = result.secure_url;
+              console.log('File URL:', fileUrl);
+
+              this.virtualRoomService.saveFileUrlToDatabase(fileUrl, userId, panelId)
+                .subscribe((response) => {
+                  console.log('File URL saved to database successfully:', response);
+                }, (error) => {
+                  console.error('Error saving file URL to database:', error);
+                });
+            })
+            .catch((error) => {
+              console.error('Error uploading file to Cloudinary:', error);
+            });
+        }
       }
-    });
+    }
   }
+
+  
+
+
   goToAddNewGuest(access: string): void {
-    this.router.navigate(['forms/add-new-guest'], { queryParams: { access } });
+    this.router.navigate(['/add-new-guest'], { queryParams: { 
+      access: access, 
+      permissionParam : this.defaultGuestPermission ,
+      title :  this.virtualDataRoomTitle 
+    } });
   }
+  
 }

@@ -31,7 +31,7 @@ import { Router } from '@angular/router';
     TranslateModule,
     FormsDatetimeComponent,
   ],
-  providers: [VirtualRoomService, Router],
+  providers: [VirtualRoomService],
   templateUrl: './create-virtual-room.component.html',
   styleUrls: ['./create-virtual-room.component.scss'],
 })
@@ -44,6 +44,7 @@ export class CreateVirtualRoomComponent {
       access: ['', Validators.required],
       defaultGuestPermission: ['', Validators.required],
       chosenDateTime: [new Date(), Validators.required],
+    
      
     });
   }

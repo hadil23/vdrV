@@ -11,6 +11,7 @@ import { NgModule } from '@angular/core';
 import {CreateVirtualRoomComponent} from './create-virtual-room/create-virtual-room.component';
 import { AddNewGuestComponent } from './add-new-guest/add-new-guest.component';
 import { ManageDataRoomsComponent } from './manage-data-rooms/manage-data-rooms.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 export const routes: Routes = [
   { path: 'elements', component: FormsElementsComponent },
   { path: 'dynamic', component: FormsDynamicComponent },
@@ -20,6 +21,7 @@ export const routes: Routes = [
 {path:'manage-data-room', component : ManageDataRoomsComponent},
   { path: 'create-virtual-room', component: CreateVirtualRoomComponent },
   { path: 'add-new-guest', component: AddNewGuestComponent },
+  {path :'verify-email' , component : VerifyEmailComponent}
 ];
 
 @NgModule({
