@@ -93,7 +93,19 @@ private nzDrawerService = inject (NzDrawerService);
       const virtualRoomIdString = params['id'];
       const permissionParam = params['defaultGuestPermission'];
       if (permissionParam) {
-        this.defaultGuestPermission = permissionParam as Permission; // cast to Permission enum
+        switch (permissionParam) {
+          case 'download':
+            this.defaultGuestPermission = Permission.Download;
+            break;
+          case 'edit':
+            this.defaultGuestPermission = Permission.Edit;
+            break;
+          case 'onlyview':
+            this.defaultGuestPermission = Permission.OnlyView;
+            break;
+          default:
+            this.defaultGuestPermission = Permission.NoAccess;
+        }
       } else {
         this.defaultGuestPermission = Permission.NoAccess; // set default value if parameter is not present
       }
@@ -211,14 +223,14 @@ private nzDrawerService = inject (NzDrawerService);
   }
 
   downloadAllFiles(): void {
-    if (!this.canDownloadFiles()) {
+    if (!this.canDownloadFiles() && this.defaultGuestPermission!== Permission.Download) {
       alert('Denied permission to download files.');
       return;
     }
-
+  
     const zip = new JSZip();
     const downloadPromises: Promise<void>[] = [];
-
+  
     this.panels().forEach((panel) => {
       panel.files.forEach((file) => {
         downloadPromises.push(
@@ -234,7 +246,7 @@ private nzDrawerService = inject (NzDrawerService);
         );
       });
     });
-
+  
     Promise.all(downloadPromises).then(() => {
       zip.generateAsync({ type: 'blob' }).then((content) => {
         saveAs(content, 'virtual_data_room.zip');
@@ -243,6 +255,7 @@ private nzDrawerService = inject (NzDrawerService);
       console.error('Erreur lors de la création du fichier zip :', error);
     });
   }
+  
 
   addNewSection(): void {
     if (!this.canEdit()) {
