@@ -109,6 +109,14 @@ private nzDrawerService = inject (NzDrawerService);
       } else {
         this.defaultGuestPermission = Permission.Edit;
       }
+      console.log('VirtualRoomId:', virtualRoomIdString);
+      const virtualRoomId = parseInt(virtualRoomIdString, 10);
+      if (!isNaN(virtualRoomId)) {
+        this.virtualRoomService.setVirtualRoomId(virtualRoomId);
+      } else {
+        console.error('Invalid virtualRoomId:', virtualRoomIdString);
+      }
+
     });
   }
   
