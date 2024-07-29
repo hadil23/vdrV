@@ -7,11 +7,15 @@ import { Observable } from 'rxjs';
 })
 export class VerifyEmailService {
 
-  private apiUrl = 'http://localhost:3000/api/auth'; // Assurez-vous que l'URL est correcte ici
+  private apiUrl = 'http://localhost:3000/api'; // Assurez-vous que l'URL est correcte ici
 
   constructor(private http: HttpClient) { }
 
   verifyEmail(email: string, code: string , virtualDataRoomId: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/test`, { email, code,virtualDataRoomId });
+    return this.http.post<any>(`${this.apiUrl}/auth/test`, { email, code,virtualDataRoomId });
+  }
+
+  incrementViewCount(virtualDataRoomId: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/virtualDataRooms/increment-view-count/${virtualDataRoomId}`, {});
   }
 }

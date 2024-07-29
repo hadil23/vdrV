@@ -19,9 +19,10 @@ export class VirtualRoomService {
     return this.http.post<any>(url, virtualRoomData);
   }
 
-  getVirtualRoomId(): Observable<number | null> {
-    return this.virtualRoomIdSubject.asObservable();
+  getVirtualRoomId(): Observable<number> {
+    return this.http.get<number>(`${this.backendUrl}/virtualDataRooms/virtual-room-id`);
   }
+  
   createPanel(vdrId: string, name: string): Observable<any> {
     const url = `${this.backendUrl}/api/panel`;
     const panelData = { vdrId, name };
@@ -34,10 +35,6 @@ export class VirtualRoomService {
     this.virtualRoomIdSubject.next(virtualRoomId);
   }
 
-  getPanelId(virtualRoomId: number): Observable<string> {
-    const url = `${this.backendUrl}/api/panels/${virtualRoomId}`;
-    return this.http.get<string>(url);
-  }
   addPanel(panelData: any): Observable<any> {
     const url = `${this.backendUrl}/api/panel/`;
     return this.http.post<any>(url, panelData);

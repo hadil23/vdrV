@@ -132,8 +132,10 @@ private nzDrawerService = inject (NzDrawerService);
   
   createPanel(): void {
     this.virtualRoomService.getVirtualRoomId().subscribe(vdrId => {
+      console.log('Virtual Room ID:', vdrId);
       if (vdrId !== null) {
         const panelTitle = this.newPanelTitle.trim();
+        console.log('Panel Title:', panelTitle);
         if (panelTitle !== '') {
           this.virtualRoomService.createPanel(vdrId.toString(), panelTitle).subscribe(
             response => {
@@ -149,6 +151,9 @@ private nzDrawerService = inject (NzDrawerService);
       }
     });
   }
+  
+  
+  
 
 
 
@@ -334,7 +339,14 @@ isDialogOpen = false;
     }
   }
 
-  
+  saveChanges(): void {
+    if (!this.canEdit()) {
+      alert('Denied permission...');
+      return;
+    }
+
+    console.log('Changes saved successfully');
+  }
 
 
   goToAddNewGuest(access: string): void {

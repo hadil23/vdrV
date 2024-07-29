@@ -94,6 +94,22 @@ export class VerifyEmailComponent implements OnInit {
     }
   }
 
+ 
+
+  incrementViewCountAndNavigate(virtualDataRoomId: string) {
+    this.verifyEmailService.incrementViewCount(virtualDataRoomId).subscribe(
+      response => {
+        this.showToast('Verification successful, view count incremented and eye status updated');
+        this.navigateToVirtualDataRoom(virtualDataRoomId);
+      },
+      error => {
+        console.error('Error incrementing view count and updating eye status:', error);
+        this.showToast('Verification successful but failed to update view count and eye status');
+        this.navigateToVirtualDataRoom(virtualDataRoomId);
+      }
+    );
+  }
+
   navigateToVirtualDataRoom(virtualDataRoomId: string) {
     this.router.navigate(['/forms/virtual-data-room'], { queryParams: { id: virtualDataRoomId, title: this.virtualDataRoomTitle , defaultGuestPermission :this.permissionParam} });
   }
