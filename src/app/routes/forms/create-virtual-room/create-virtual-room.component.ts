@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsDatetimeComponent } from '../datetime/datetime.component';
 import { VirtualRoomService } from '../services/virtual-room.service';
 import { Router } from '@angular/router';
+import moment from 'moment';
 
 @Component({
   selector: 'app-create-virtual-room',
@@ -37,7 +38,7 @@ import { Router } from '@angular/router';
 })
 export class CreateVirtualRoomComponent {
   reactiveForm1: FormGroup;
-
+   ownerId = '17';
   constructor(private fb: FormBuilder, private virtualRoomService: VirtualRoomService, private router: Router) {
     this.reactiveForm1 = this.fb.group({
       virtualDataRoomTitle: ['', Validators.required],
@@ -65,19 +66,14 @@ export class CreateVirtualRoomComponent {
         return;
       }
   
-     
-      const expiryDateTime = new Date(chosenDateTime);
-  
-      if (isNaN(expiryDateTime.getTime())) {
-        console.error('Error: Invalid expiry date and time');
-        return;
-      }
+      const expiryDateTime = moment(chosenDateTime).format('YYYY-MM-DD HH:mm:ss');
   
       const virtualRoomData = {
         name: virtualDataRoomTitle,
         defaultGuestPermission,
         access,
-        expiryDateTime
+        expiryDateTime,
+        ownerId: this.ownerId
       };
   
       console.log('Form submitted with the following data:', virtualRoomData);

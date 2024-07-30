@@ -160,57 +160,50 @@ private nzDrawerService = inject (NzDrawerService);
     });
   }
   
-  
-  
 
+  addFileToPanel(panel: any, event: NzUploadChangeParam): void {
+    console.log('addFileToPanel called with panel:', panel);
+    console.log('addFileToPanel called with event:', event);
 
+    if (!this.canEdit()) {
+      alert('Denied permission...');
+      return;
+    }
 
-  addPanel(): void {
-    const dialogRef = this.dialog.open(AddSectionDialogComponent, {
-      width: '250px'
-    });
+    const preset = 'ml_default';
+    const userId = '17';
+    const panelId = panel.id;
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result && result.trim() !== '') { // Vérifier si le résultat n'est pas vide
-        const newPanel: Panel = {
-          id: Date.now().toString(), // Générer un ID unique
-          title: result.trim(), // Nettoyer les espaces blancs
-          files: [] ,
-          expanded: false// Initialiser avec un tableau vide
-        };
+    if (event.fileList) {
+      for (const file of event.fileList) {
+        if (file.originFileObj) {
+          const fileObject = file.originFileObj as File;
+          console.log('Uploading file:', fileObject.name);
 
-        // Mettre à jour le signal panels avec le nouveau panel
-        this.panels.update(panels => [...panels, newPanel]);
-      } else {
-        console.error('Le titre du panel est vide');
+          this.cloudinaryService.uploadFile(fileObject, preset)
+            .then((result) => {
+              console.log('File uploaded to Cloudinary:', result);
+
+              const fileUrl = result.secure_url;
+              console.log('File URL:', fileUrl);
+
+              this.virtualRoomService.saveFileUrlToDatabase(fileUrl, userId, panelId)
+                .subscribe((response) => {
+                  console.log('File URL saved to database successfully:', response);
+                }, (error) => {
+                  console.error('Error saving file URL to database:', error);
+                });
+            })
+            .catch((error) => {
+              console.error('Error uploading file to Cloudinary:', error);
+            });
+        }
       }
-    });
-  }
-  
-  
-
-  openAddPanelDialog() {
-    const dialogRef = this.dialog.open(this.addPanelDialog, {
-      width: '300px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.panels.update(panels => [...panels, { id: Date.now().toString(), title: result, files: [] ,expanded: false}]);
-      }
-    });
+    }
   }
 
  
 
-  dropFile(panel: Panel, event: CdkDragDrop<File[]>) {
-    const previousIndex = event.previousContainer.data.indexOf(event.item.data);
-    const currentIndex = event.container.data.indexOf(event.item.data);
-
-    if (previousIndex > -1 && currentIndex > -1) {
-      this.moveItemInArray(panel.files, previousIndex, currentIndex);
-    }
-  }
 
  
 
@@ -300,53 +293,10 @@ isDialogOpen = false;
       this.isDialogOpen = false;
     });
   }
-  moveItemInArray(array: any[], fromIndex: number, toIndex: number): void {
-    const [removed] = array.splice(fromIndex, 1);
-    array.splice(toIndex, 0, removed);
-  }
  
  
-  addFileToPanel(panel: any, event: NzUploadChangeParam): void {
-    console.log('addFileToPanel called with panel:', panel);
-    console.log('addFileToPanel called with event:', event);
-
-    if (!this.canEdit()) {
-      alert('Denied permission...');
-      return;
-    }
-
-    const preset = 'ml_default';
-    const userId = '17';
-    const panelId = panel.id;
-
-    if (event.fileList) {
-      for (const file of event.fileList) {
-        if (file.originFileObj) {
-          const fileObject = file.originFileObj as File;
-          console.log('Uploading file:', fileObject.name);
-
-          this.cloudinaryService.uploadFile(fileObject, preset)
-            .then((result) => {
-              console.log('File uploaded to Cloudinary:', result);
-
-              const fileUrl = result.secure_url;
-              console.log('File URL:', fileUrl);
-
-              this.virtualRoomService.saveFileUrlToDatabase(fileUrl, userId, panelId)
-                .subscribe((response) => {
-                  console.log('File URL saved to database successfully:', response);
-                }, (error) => {
-                  console.error('Error saving file URL to database:', error);
-                });
-            })
-            .catch((error) => {
-              console.error('Error uploading file to Cloudinary:', error);
-            });
-        }
-      }
-    }
-  }
-
+ 
+ 
   saveChanges(): void {
     if (!this.canEdit()) {
       alert('Denied permission...');

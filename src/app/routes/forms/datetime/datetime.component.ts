@@ -107,7 +107,4 @@ export class FormsDatetimeComponent implements OnInit, OnDestroy, ControlValueAc
   convertDateToMySQLFormat(date: moment.Moment): string {
     return date.format('YYYY-MM-DD HH:mm:ss');
   }
-  
-
- 
 }
