@@ -34,15 +34,19 @@ export class VirtualRoomService {
     this.virtualRoomIdSubject.next(virtualRoomId);
   }
 
+  getPanelId(virtualRoomId: number): Observable<string> {
+    const url = `${this.backendUrl}/api/panels/${virtualRoomId}`;
+    return this.http.get<string>(url);
+  }
   addPanel(panelData: any): Observable<any> {
     const url = `${this.backendUrl}/api/panel/`;
     return this.http.post<any>(url, panelData);
   }
-  getVirtualDataRoom(virtualDataRoomId: number): Observable<any> {
-    return this.http.get(`${this.backendUrl}/virtualDataRooms/virtualDataRooms/${virtualDataRoomId}`);
+  getVirtualDataRoomById(virtualDataRoomId: number): Observable<any> {
+    return this.http.get(`${this.backendUrl}/virtualDataRooms/${virtualDataRoomId}`);
   }
   getAllVirtualDataRooms(): Observable<any[]> {
-    const url = `${this.backendUrl}/api/virtualDataRooms/virtualDataRooms`;
+    const url = `${this.backendUrl}/api/virtualDataRooms`;
     return this.http.get<any[]>(url);
   }
 // virtual-room.service.ts
@@ -79,8 +83,9 @@ addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any
     const url = `${this.backendUrl}/api/files`;
     return this.http.post<any>(url, { url: fileUrl, user_id: userId, panel_id: panelId });
   }
+  
   checkInvitationTab(): Observable<any> {
-    const url = `${this.backendUrl}/api/virtualDataRooms/checkInvitationTab`;
+    const url = `${this.backendUrl}/api/invitations/getAllInvitationsWithStatus`;
     return this.http.get<any>(url);
   }
 

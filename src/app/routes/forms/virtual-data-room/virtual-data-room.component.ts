@@ -96,14 +96,14 @@ private nzDrawerService = inject (NzDrawerService);
         const virtualRoomId = parseInt(virtualRoomIdString, 10);
   
         if (!isNaN(virtualRoomId)) {
-          this.virtualRoomService.getVirtualDataRoom(virtualRoomId).subscribe((virtualDataRoom) => {
-            console.log('Data received from API:', virtualDataRoom);  // Pour vérifier les données reçues
+          this.virtualRoomService.getVirtualDataRoomById(virtualRoomId).subscribe((virtualDataRoom) => {
+            console.log('Data received from API:', virtualDataRoom);
   
             if (virtualDataRoom) {
               this.virtualDataRoomTitle = virtualDataRoom.title || '';
               this.access = virtualDataRoom.access || '';
               this.defaultGuestPermission = this.mapPermission(virtualDataRoom.defaultGuestPermission);
-              this.virtualRoomService.setVirtualRoomId(virtualRoomId);
+              this.virtualRoomService.setVirtualRoomId(virtualRoomId); // Add this line
             } else {
               console.error('No data received for virtualRoomId:', virtualRoomId);
             }
@@ -132,15 +132,12 @@ private nzDrawerService = inject (NzDrawerService);
   }
   
   
- 
-  
-  
- 
-  
   createPanel(): void {
     this.virtualRoomService.getVirtualRoomId().subscribe(vdrId => {
       console.log('Virtual Room ID:', vdrId);
-      if (vdrId !== null) {
+      if (vdrId === null) {
+        console.error('L\'ID de la salle virtuelle est null');
+      } else {
         const panelTitle = this.newPanelTitle.trim();
         console.log('Panel Title:', panelTitle);
         if (panelTitle !== '') {
