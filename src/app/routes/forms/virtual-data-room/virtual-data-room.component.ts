@@ -89,37 +89,46 @@ private nzDrawerService = inject (NzDrawerService);
   
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      this.virtualDataRoomTitle = params['title'];
-      const virtualRoomIdString = params['id'];
-      const permissionParam = params['defaultGuestPermission'];
-      if (permissionParam) {
-        switch (permissionParam.toLowerCase()) {
-          case 'download':
-            this.defaultGuestPermission = Permission.Download;
-            break;
-          case 'edit':
-            this.defaultGuestPermission = Permission.Edit;
-            break;
-          case 'onlyview':
-            this.defaultGuestPermission = Permission.OnlyView;
-            break;
-          default:
-            this.defaultGuestPermission = Permission.NoAccess;
+      const virtualRoomIdString = this.activatedRoute.snapshot.paramMap.get('id');
+  
+      if (virtualRoomIdString) {
+        const virtualRoomId = parseInt(virtualRoomIdString, 10);
+  
+        if (!isNaN(virtualRoomId)) {
+          this.virtualRoomService.getVirtualDataRoomById(virtualRoomId).subscribe((virtualDataRoom) => {
+            console.log('Data received from API:', virtualDataRoom);  // Pour vérifier les données reçues
+  
+            if (virtualDataRoom) {
+              this.virtualDataRoomTitle = virtualDataRoom.title || '';
+              this.access = virtualDataRoom.access || '';
+              this.defaultGuestPermission = this.mapPermission(virtualDataRoom.defaultGuestPermission);
+              this.virtualRoomService.setVirtualRoomId(virtualRoomId);
+            } else {
+              console.error('No data received for virtualRoomId:', virtualRoomId);
+            }
+          }, error => {
+            console.error('Error fetching virtual data room:', error);
+          });
+        } else {
+          console.error('Invalid virtualRoomId:', virtualRoomIdString);
         }
       } else {
-        this.defaultGuestPermission = Permission.Edit;
+        console.error('No virtualRoomId in route params');
       }
-      console.log('VirtualRoomId:', virtualRoomIdString);
-      const virtualRoomId = parseInt(virtualRoomIdString, 10);
-      if (!isNaN(virtualRoomId)) {
-        this.virtualRoomService.setVirtualRoomId(virtualRoomId);
-      } else {
-        console.error('Invalid virtualRoomId:', virtualRoomIdString);
-      }
-
     });
   }
-  
+  private mapPermission(permission: string): Permission {
+    switch (permission?.toLowerCase()) {
+      case 'download':
+        return Permission.Download;
+      case 'edit':
+        return Permission.Edit;
+      case 'onlyview':
+        return Permission.OnlyView;
+      default:
+        return Permission.NoAccess;
+    }
+  }
   
   
   

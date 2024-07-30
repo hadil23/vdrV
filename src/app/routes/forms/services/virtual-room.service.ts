@@ -42,7 +42,7 @@ export class VirtualRoomService {
     const url = `${this.backendUrl}/api/panel/`;
     return this.http.post<any>(url, panelData);
   }
-  getVirtualDataRoom(virtualDataRoomId: number): Observable<any> {
+  getVirtualDataRoomById(virtualDataRoomId: number): Observable<any> {
     return this.http.get(`${this.backendUrl}/virtualDataRooms/${virtualDataRoomId}`);
   }
   getAllVirtualDataRooms(): Observable<any[]> {
