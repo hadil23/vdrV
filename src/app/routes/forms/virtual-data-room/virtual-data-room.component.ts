@@ -1,3 +1,4 @@
+
 import { ChangeDetectionStrategy, Component, inject, signal, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // Importez MatDialogModule ici
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -70,6 +71,9 @@ export class VirtualDataRoomComponent implements OnInit {
   ]);
  
 
+
+  private drawerService = inject(NzDrawerService);
+
 private nzDrawerService = inject (NzDrawerService);
   private router = inject(Router);
   private dialog = inject(MatDialog);
@@ -126,7 +130,6 @@ private nzDrawerService = inject (NzDrawerService);
         return Permission.NoAccess;
     }
   }
-  
   
   
  
@@ -311,4 +314,6 @@ isDialogOpen = false;
     } });
   }
   
-}   
+}
+
+
