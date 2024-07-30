@@ -30,7 +30,10 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         
-        <app-nz-demo-upload-basic></app-nz-demo-upload-basic>
+        <div *ngIf="panel">
+          <app-nz-demo-upload-basic (nzChange)="addFileToPanel(panel, $event)"></app-nz-demo-upload-basic>
+
+      </div>
       </mat-expansion-panel>
     </ng-container>
   </mat-accordion>

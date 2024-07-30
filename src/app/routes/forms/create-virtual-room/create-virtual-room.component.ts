@@ -13,6 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsDatetimeComponent } from '../datetime/datetime.component';
 import { VirtualRoomService } from '../services/virtual-room.service';
 import { Router } from '@angular/router';
+import moment from 'moment';
 
 @Component({
   selector: 'app-create-virtual-room',
@@ -65,13 +66,7 @@ export class CreateVirtualRoomComponent {
       }
   
      
-      const expiryDateTime = new Date(chosenDateTime);
-  
-      if (isNaN(expiryDateTime.getTime())) {
-        console.error('Error: Invalid expiry date and time');
-        return;
-      }
-  
+      const expiryDateTime = moment(chosenDateTime).format('YYYY-MM-DD HH:mm:ss');
       const virtualRoomData = {
         name: virtualDataRoomTitle,
         defaultGuestPermission,
