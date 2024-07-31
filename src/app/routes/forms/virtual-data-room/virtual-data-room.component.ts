@@ -23,7 +23,7 @@ import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 
-export enum Permission {
+export enum defaultGuestPermission {
   NoAccess = 'No Access',
   OnlyView = 'Only View',
   Download = 'Download',
@@ -55,9 +55,9 @@ export class VirtualDataRoomComponent implements OnInit {
   @ViewChild('addPanelDialog') addPanelDialog: any;
   newPanelTitle: string = '';
 
-  @Input() virtualDataRoomTitle: string = '';
-  @Input() access: string = '';
-  @Input() defaultGuestPermission: Permission = Permission.Download; 
+  virtualDataRoomTitle: string = '';
+   access: string = '';
+  defaultGuestPermission: defaultGuestPermission = defaultGuestPermission.Download; 
 
 
 
@@ -86,24 +86,38 @@ private nzDrawerService = inject (NzDrawerService);
   panel: any;
   
  
-
+  private mapPermission(permission: string): defaultGuestPermission {
+    switch (permission?.toLowerCase()) {
+      case 'download':
+        return defaultGuestPermission.Download;
+      case 'edit':
+        return defaultGuestPermission.Edit;
+      case 'onlyview':
+        return defaultGuestPermission.OnlyView;
+      default:
+        return defaultGuestPermission.NoAccess;
+    }
+  }
   
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      const virtualRoomIdString = this.activatedRoute.snapshot.paramMap.get('id');
+      console.log(params.id)
+      console.log(this.activatedRoute.snapshot.paramMap.get('id'))
+      const virtualRoomIdString = params.id;
   
       if (virtualRoomIdString) {
-        const virtualRoomId = parseInt(virtualRoomIdString, 10);
+        const virtualRoomId =params.id;
   
         if (!isNaN(virtualRoomId)) {
-          this.virtualRoomService.getVirtualDataRoomById(virtualRoomId).subscribe((virtualDataRoom) => {
+          this.virtualRoomService.getVirtualDataRoomById(params.id).subscribe((virtualDataRoom: any) => {
             console.log('Data received from API:', virtualDataRoom);
+            debugger;
   
             if (virtualDataRoom) {
-              this.virtualDataRoomTitle = virtualDataRoom.title || '';
+              this.virtualDataRoomTitle = virtualDataRoom.name || '';
               this.access = virtualDataRoom.access || '';
-              this.defaultGuestPermission = this.mapPermission(virtualDataRoom.defaultGuestPermission);
-              this.virtualRoomService.setVirtualRoomId(virtualRoomId); // Add this line
+              this.defaultGuestPermission = virtualDataRoom.defaultGuestPermission || '';
+              this.virtualRoomService.setVirtualRoomId(virtualRoomId);
             } else {
               console.error('No data received for virtualRoomId:', virtualRoomId);
             }
@@ -118,18 +132,7 @@ private nzDrawerService = inject (NzDrawerService);
       }
     });
   }
-  private mapPermission(permission: string): Permission {
-    switch (permission?.toLowerCase()) {
-      case 'download':
-        return Permission.Download;
-      case 'edit':
-        return Permission.Edit;
-      case 'onlyview':
-        return Permission.OnlyView;
-      default:
-        return Permission.NoAccess;
-    }
-  }
+  
   
   
   createPanel(): void {
@@ -206,7 +209,7 @@ private nzDrawerService = inject (NzDrawerService);
   
 
   canEdit(): boolean {
-    return this.defaultGuestPermission === Permission.Edit;
+    return this.defaultGuestPermission === defaultGuestPermission.Edit;
   }
 
 
@@ -214,11 +217,11 @@ private nzDrawerService = inject (NzDrawerService);
 
   canDownloadFiles(): boolean {
     console.log('Checking download permission:', this.defaultGuestPermission);
-    return this.defaultGuestPermission === Permission.Download || this.defaultGuestPermission === Permission.Edit;
+    return this.defaultGuestPermission === defaultGuestPermission.Download || this.defaultGuestPermission === defaultGuestPermission.Edit;
   }
 
   downloadAllFiles(): void {
-    if (!this.canDownloadFiles() && this.defaultGuestPermission!== Permission.Download && this.defaultGuestPermission!== Permission.Edit) {
+    if (!this.canDownloadFiles() && this.defaultGuestPermission!== defaultGuestPermission.Download && this.defaultGuestPermission!== defaultGuestPermission.Edit) {
       alert('Denied permission to download files.');
       return;
     }
