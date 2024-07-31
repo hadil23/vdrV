@@ -135,18 +135,21 @@ private nzDrawerService = inject (NzDrawerService);
   
   
   
+  private panelId!: string; // declare a private variable to store the panel ID
+
   createPanel(): void {
-    this.virtualRoomService.getVirtualRoomId().subscribe(vdrId => {
-      console.log('Virtual Room ID:', vdrId);
-      if (vdrId === null) {
-        console.error('L\'ID de la salle virtuelle est null');
+    this.virtualRoomService.getVirtualRoomId().subscribe(virtualRoomId => {
+      console.log('Virtual Room ID:', virtualRoomId);
+      if (virtualRoomId === null) {
+        console.error('LID de la salle virtuelle est null');
       } else {
         const panelTitle = this.newPanelTitle.trim();
         console.log('Panel Title:', panelTitle);
         if (panelTitle !== '') {
-          this.virtualRoomService.createPanel(vdrId.toString(), panelTitle).subscribe(
+          this.virtualRoomService.createPanel(virtualRoomId.toString(), panelTitle).subscribe(
             response => {
               console.log('Panel créé avec succès :', response);
+              this.panelId = response.id; // store the panel ID
             },
             error => {
               console.error('Erreur lors de la création du panel :', error);
@@ -159,39 +162,40 @@ private nzDrawerService = inject (NzDrawerService);
     });
   }
   
-
-  addFileToPanel(panel: any, event: NzUploadChangeParam): void {
+  addFileToPanel(panel: Panel, event: NzUploadChangeParam): void {
     console.log('addFileToPanel called with panel:', panel);
     console.log('addFileToPanel called with event:', event);
-
+  
     if (!this.canEdit()) {
       alert('Denied permission...');
       return;
     }
-
+  
     const preset = 'ml_default';
     const userId = '17';
-    const panelId = panel.id;
-
+  
     if (event.fileList) {
       for (const file of event.fileList) {
         if (file.originFileObj) {
           const fileObject = file.originFileObj as File;
           console.log('Uploading file:', fileObject.name);
-
+  
           this.cloudinaryService.uploadFile(fileObject, preset)
             .then((result) => {
               console.log('File uploaded to Cloudinary:', result);
-
+  
               const fileUrl = result.secure_url;
               console.log('File URL:', fileUrl);
-
-              this.virtualRoomService.saveFileUrlToDatabase(fileUrl, userId, panelId)
-                .subscribe((response) => {
-                  console.log('File URL saved to database successfully:', response);
-                }, (error) => {
-                  console.error('Error saving file URL to database:', error);
-                });
+  
+              // only save the file URL to the database if the panel ID exists
+              if (this.panelId) {
+                this.virtualRoomService.saveFileUrlToDatabase(fileUrl, userId, this.panelId)
+                  .subscribe((response) => {
+                    console.log('File URL saved to database successfully:', response);
+                  }, (error) => {
+                    console.error('Error saving file URL to database:', error);
+                  });
+              }
             })
             .catch((error) => {
               console.error('Error uploading file to Cloudinary:', error);
@@ -200,7 +204,6 @@ private nzDrawerService = inject (NzDrawerService);
       }
     }
   }
-
  
 
 

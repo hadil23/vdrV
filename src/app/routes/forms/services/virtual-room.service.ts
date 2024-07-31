@@ -10,6 +10,7 @@ export class VirtualRoomService {
 
   private backendUrl = 'http://localhost:3000';
   private virtualRoomIdSubject: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null); // Initialisation de virtualRoomIdSubject
+  panelIdSubject: any;
 
   constructor(private http: HttpClient) { }
 
@@ -34,10 +35,7 @@ export class VirtualRoomService {
     this.virtualRoomIdSubject.next(virtualRoomId);
   }
 
-  getPanelId(virtualRoomId: number): Observable<string> {
-    const url = `${this.backendUrl}/api/panels/${virtualRoomId}`;
-    return this.http.get<string>(url);
-  }
+ 
   addPanel(panelData: any): Observable<any> {
     const url = `${this.backendUrl}/api/panel/`;
     return this.http.post<any>(url, panelData);
@@ -48,6 +46,14 @@ export class VirtualRoomService {
   getAllVirtualDataRooms(): Observable<any[]> {
     const url = `${this.backendUrl}/api/virtualDataRooms`;
     return this.http.get<any[]>(url);
+  }
+
+  getPanelId(): Observable<string | null> {
+    return this.panelIdSubject.asObservable();
+  }
+
+  setPanelId(panelId: string): void {
+    this.panelIdSubject.next(panelId);
   }
 // virtual-room.service.ts
 addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any> {
