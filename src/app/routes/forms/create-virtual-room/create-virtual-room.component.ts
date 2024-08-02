@@ -86,9 +86,7 @@ export class CreateVirtualRoomComponent {
             this.router.navigate(['/forms/virtual-data-room'], {
               queryParams: {
                 id: virtualRoomId,
-                title: virtualRoomData.name,
-                defaultGuestPermission: virtualRoomData.defaultGuestPermission,
-                access: virtualRoomData.access
+               
               }
             });
           } else {

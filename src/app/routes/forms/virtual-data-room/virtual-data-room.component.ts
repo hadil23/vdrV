@@ -1,5 +1,5 @@
 
-import { ChangeDetectionStrategy, Component, inject, signal, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, OnInit, ViewChild, ChangeDetectorRef, Input, WritableSignal } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // Importez MatDialogModule ici
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -22,7 +22,7 @@ import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
-
+import { FormatFileNamePipe } from '../format-file-name.pipe' ; 
 export enum defaultGuestPermission {
   NoAccess = 'No Access',
   OnlyView = 'Only View',
@@ -37,6 +37,7 @@ export enum defaultGuestPermission {
     MatExpansionModule,
     NzDrawerModule,
     CommonModule,
+    
     NzDemoUploadBasicComponent,
     MatDialogModule, 
     DragDropModule,
@@ -44,11 +45,14 @@ export enum defaultGuestPermission {
     MatFormFieldModule, 
     AddSectionDialogComponent,
     MatInputModule,
+    FormatFileNamePipe
+  
   ],
-  providers:[NzDrawerService],
+  providers:[NzDrawerService ,FormatFileNamePipe],
   templateUrl: './virtual-data-room.component.html',
   styleUrls: ['./virtual-data-room.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+ 
 })
 export class VirtualDataRoomComponent implements OnInit {
   panelOpenState = signal(false);
@@ -63,12 +67,7 @@ export class VirtualDataRoomComponent implements OnInit {
 
 
 
-  panels = signal<Panel[]>([
-    { id: '1', title: 'Legal Documents', files: [] , expanded: false},
-    { id: '2', title: 'Financial Documents', files: [] , expanded: false},
-    { id: '3', title: 'Products', files: [] ,expanded: false},
-    { id: '4', title: 'Intellectual Property', files: [],expanded: false }
-  ]);
+
  
 
 
@@ -84,6 +83,23 @@ private nzDrawerService = inject (NzDrawerService);
   private cd= inject(ChangeDetectorRef);
   userId = '17';
   panel: any;
+
+  virtualRoomId: any;
+
+  paneles: Panel[] = [];
+
+  panels: WritableSignal<Panel[]> = signal<Panel[]>([]);
+  panells = signal<Panel[]>([
+    { id: '1', title: 'Legal Documents', files: [], expanded: false },
+    { id: '2', title: 'Financial Documents', files: [], expanded: false },
+    { id: '3', title: 'Products', files: [], expanded: false },
+    { id: '4', title: 'Intellectual Property', files: [], expanded: false }
+  ]);
+
+  get panelList(): Panel[] {
+    return this.panels(); // Get the latest value from the signal
+  }
+
   
  
   private mapPermission(permission: string): defaultGuestPermission {
@@ -98,26 +114,53 @@ private nzDrawerService = inject (NzDrawerService);
         return defaultGuestPermission.NoAccess;
     }
   }
+
+
+
   
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      console.log(params.id)
-      console.log(this.activatedRoute.snapshot.paramMap.get('id'))
       const virtualRoomIdString = params.id;
   
       if (virtualRoomIdString) {
-        const virtualRoomId =params.id;
+        const virtualRoomId = +virtualRoomIdString; // Convertir en nombre
   
         if (!isNaN(virtualRoomId)) {
-          this.virtualRoomService.getVirtualDataRoomById(params.id).subscribe((virtualDataRoom: any) => {
+          this.virtualRoomService.getVirtualDataRoomById(virtualRoomId).subscribe((virtualDataRoom: any) => {
             console.log('Data received from API:', virtualDataRoom);
-            debugger;
   
             if (virtualDataRoom) {
               this.virtualDataRoomTitle = virtualDataRoom.name || '';
               this.access = virtualDataRoom.access || '';
-              this.defaultGuestPermission = virtualDataRoom.defaultGuestPermission || '';
+              this.defaultGuestPermission = this.mapPermission(virtualDataRoom.defaultGuestPermission) || defaultGuestPermission.Download;
+              this.virtualRoomId = virtualRoomId; // Définir virtualRoomId pour une utilisation ultérieure
               this.virtualRoomService.setVirtualRoomId(virtualRoomId);
+              this.virtualRoomService.getPanelsByVdrId(virtualRoomId).subscribe((panels: any) => {
+                console.log('Panels data received from API:', panels);
+                const formattedPanels = panels.map((panel: { id: any; name: any; }) => ({
+                  id: panel.id,
+                  title: panel.name,
+                  files: []
+                }));
+  
+                // Get files for each panel
+                formattedPanels.forEach((panel: { id: number; files: any; }) => {
+                  this.virtualRoomService.getFilesByPanelId(panel.id).subscribe((files: any) => {
+                    console.log('Files data received from API:', files);
+                    panel.files = files.map((file: { id: any; name: any; url: any; }) => ({
+                      id: file.id,
+                      name: file.name,
+                      url: file.url
+                    }));
+                  }, error => {
+                    console.error('Error fetching files:', error);
+                  });
+                });
+  
+                this.panels.set(formattedPanels);
+              }, error => {
+                console.error('Error fetching panels:', error);
+              });
             } else {
               console.error('No data received for virtualRoomId:', virtualRoomId);
             }
@@ -134,6 +177,8 @@ private nzDrawerService = inject (NzDrawerService);
   }
   
   
+ 
+
   
   private panelId!: string; // declare a private variable to store the panel ID
 
@@ -315,6 +360,20 @@ isDialogOpen = false;
       permissionParam : this.defaultGuestPermission ,
       title :  this.virtualDataRoomTitle 
     } });
+  }
+  
+
+  goToDraft(): void {
+    const draft = {
+      id: this.virtualRoomId,
+      title: this.virtualDataRoomTitle
+    };
+
+    // Enregistrez le draft et effectuez la navigation
+    this.router.navigate(['/forms/draft'], {
+      queryParams: { id: this.virtualRoomId, title: this.virtualDataRoomTitle }
+  })
+
   }
   
 }

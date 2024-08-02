@@ -1,0 +1,33 @@
+.home button {
+    text-transform: uppercase;
+  }
+  
+  .home {
+    max-width: 1250px;
+    max-height: 100%;
+    
+  }
+ 
+ 
+  .mat-card-content {
+  
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; 
+  }
+  
+ 
+  .card-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Espace entre les cartes */
+  }
+  
+  app-card {
+    flex: 1 1 calc(33.333% - 1rem); /* Ajustez l'espace en fonction du gap */
+    box-sizing: border-box;
+  }
+  
+  .new-row {
+    clear: both;
+  }

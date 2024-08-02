@@ -1,0 +1,27 @@
+<section>
+    <mat-card class="Etafakna">
+      <mat-card-header>
+        <mat-card-title>{{virtualDataRoomTitle}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let panel of panels">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ panel.name }}</mat-card-title>
+              <button mat-button (click)="deletePanel(panel.id)">Delete Panel</button>
+            </mat-card-header>
+            <mat-card-content>
+              <div *ngFor="let file of getFilesForPanel(panel.id)">
+                <p>{{ file.name }}</p>
+                <button mat-button (click)="deleteFile(file.id)">Delete File</button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-button (click)="deleteVirtualDataRoom()">Delete Virtual Data Room</button>
+      </mat-card-actions>
+    </mat-card>
+  </section>
+  

@@ -95,4 +95,29 @@ addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any
     return this.http.get<any>(url);
   }
 
+  getFilesByPanelId(panelId: number): Observable<any[]> {
+    const url = `${this.backendUrl}/api/files/file/${panelId}`;
+    return this.http.get<any[]>(url);
+  }
+
+  getPanelsByVdrId(vdrId: number): Observable<any[]> {
+    const url = `${this.backendUrl}/api/virtualDataRoom/${vdrId}/panels`; 
+    return this.http.get<any[]>(url);
+  }
+
+  deleteVirtualDataRoom(vdrId: number): Observable<any> {
+    const url = `${this.backendUrl}/api/virtualDataRooms/${vdrId}`;
+    return this.http.delete<any>(url);
+  }
+
+  deletePanel(panelId: number): Observable<any> {
+    const url = `${this.backendUrl}/api/panel/${panelId}`;
+    return this.http.delete<any>(url);
+  }
+
+  deleteFile(fileId: number): Observable<any> {
+    const url = `${this.backendUrl}/api/files/${fileId}`;
+    return this.http.delete<any>(url);
+  }
+
 }

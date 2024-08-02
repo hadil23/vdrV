@@ -1,0 +1,15 @@
+<mat-card class="home">
+    <mat-card-header>
+      <mat-card-title> Recent </mat-card-title>
+      <br>
+      <br>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="card-container">
+        <ng-container *ngFor="let room of virtualDataRooms; let i = index">
+          <app-card [title]="room.name" [id]="room.id" [class.new-row]="i % 3 === 0 && i !== 0"></app-card>
+        </ng-container>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
