@@ -1,0 +1,10 @@
+<button nz-button nzType="primary" (click)="open()">Open Chatbot</button>
+<nz-drawer
+  [nzClosable]="false"
+  [nzVisible]="visible"
+  nzPlacement="right"
+  nzTitle="Chatbot"
+  (nzOnClose)="close()"
+>
+  <app-chatbot></app-chatbot>
+</nz-drawer>

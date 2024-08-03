@@ -1,6 +1,13 @@
 .add-guest-card {
   max-width: 400px;
   margin: auto;
+  padding-bottom: 1px; /* Add padding bottom to prevent shadow cutoff */
+}
+
+.add-guest-card mat-card {
+  border-radius: 15px; /* Rounded corners */
+  overflow: hidden; /* Ensure the border-radius is applied correctly */
+  box-shadow: none; /* Remove default shadow */
 }
 
 .add-guest-card mat-card-header {
@@ -26,5 +33,3 @@ button[mat-flat-button] {
   background-color: #1976d2; /* Change the background color to match your theme */
   color: white;
 }
-
-  

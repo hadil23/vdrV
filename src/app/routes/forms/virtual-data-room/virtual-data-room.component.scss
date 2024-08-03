@@ -1,93 +1,81 @@
 /* Style global pour le conteneur */
 .container {
-    padding: 20px;
-    position: relative;
-  }
-  
-  /* Style pour les boutons en haut */
-  .top-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-bottom: 60px;
-  }
-  
-  /* Style pour les boutons en bas */
-  .bottom-buttons {
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    margin-top: 60px; /* Ajout d'un espace au-dessus des boutons en bas */
-  }
-  
-  /* Style pour les boutons */
-  .btn {
-    border-radius: 10px;
-    padding: 9px 12px; /* Réduction de la taille des boutons */
-    font-size: 15px; /* Réduction de la taille du texte dans les boutons */
-    transition: background-color 0.5s ease, box-shadow 0.5s ease;
-    display: flex;
-    align-items: center;
-    gap: 5px; /* Espace entre l'icône et le texte */
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
-  }
-  
-  .btn-secondary {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
-  }
-  
-  .btn:hover {
-    background-color: #6c757d;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Style pour les panneaux d'expansion */
-  mat-accordion mat-expansion-panel {
-    margin-bottom: 20px; /* Ajout d'espace entre les panneaux */
-  }
-  
-  mat-accordion mat-expansion-panel-header {
-    font-weight: bold;
-  }
-  
-  mat-panel-title, mat-panel-description {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  mat-accordion mat-expansion-panel:hover {
-    background-color: #f1f1f1;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Style pour les icônes */
-  i.fas {
-    font-size: 16px;
-  }
-  .custom-drawer .ant-drawer-content-wrapper {
-    height: 100vh !important;  /* Force la hauteur de l'écran */
-  }
-  
-  .custom-drawer .ant-drawer-content {
-    height: 100vh !important;  /* Force la hauteur de l'écran */
-  }
-  
-  .custom-drawer .ant-drawer-mask {
-    background-color: rgba(0, 0, 0, 0.5) !important;  /* Force l'opacité */
-  }
-  
-  .custom-drawer .ant-drawer-body {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-  
+  padding: 20px;
+  position: relative;
+}
+
+/* Style pour les boutons en haut */
+.top-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-bottom: 60px;
+}
+
+/* Style pour les boutons en bas */
+.bottom-buttons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 60px; /* Ajout d'un espace au-dessus des boutons en bas */
+}
+
+/* Style pour les boutons */
+.btn {
+  border-radius: 10px;
+  padding: 9px 12px; /* Réduction de la taille des boutons */
+  font-size: 15px; /* Réduction de la taille du texte dans les boutons */
+  transition: background-color 0.5s ease, box-shadow 0.5s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Espace entre l'icône et le texte */
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+}
+
+.btn:hover {
+  background-color: #6c757d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour les panneaux d'expansion */
+mat-accordion mat-expansion-panel {
+  margin-bottom: 20px; /* Ajout d'espace entre les panneaux */
+  border: 1px solid #ffffff; /* Couleur de bordure spécifique */
+  border-radius: 15px; /* Coins arrondis */
+  overflow: hidden; /* Assurez-vous que les coins arrondis sont visibles */
+}
+
+mat-accordion mat-expansion-panel-header {
+  font-weight: bold;
+}
+
+mat-panel-title, mat-panel-description {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-accordion mat-expansion-panel:hover,
+mat-accordion mat-expansion-panel:focus,
+mat-accordion mat-expansion-panel:active,
+mat-accordion mat-expansion-panel.expanded {
+  background-color: #f1f1f1;
+  border-radius: 15px; /* Coins arrondis */
+  border: 1px solid #007bff; /* Couleur de bordure spécifique */
+}
+
+/* Style pour les icônes */
+i.fas {
+  font-size: 16px;
+}

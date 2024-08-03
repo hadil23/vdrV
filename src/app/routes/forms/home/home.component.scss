@@ -1,33 +1,201 @@
-.home button {
-    text-transform: uppercase;
-  }
-  
-  .home {
-    max-width: 1250px;
-    max-height: 100%;
-    
-  }
+/* Style global pour la carte principale */
+.home {
+  max-width: 100%;
+margin-right: 2%;
+ margin-top: 7%;
  
+  overflow: hidden; /* Assurez-vous que les coins arrondis sont visibles */
+  padding: 80px; /* Espacement intérieur */
+}
+
+/* Style pour l'en-tête de la carte */
+.home-header {
  
-  .mat-card-content {
+  padding: 16px; 
+  border-bottom: none; 
+  text-align: center; 
   
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px; 
-  }
-  
+}
+
+
+.card-title {
+  font-size: 1.5rem; 
+  font-weight: bold; 
+  color: black; 
+  text-decoration: none; 
+  margin: 0; 
+}
+
+/* Style pour le contenu de la carte */
+.mat-card-content {
+  background-color: white; /* Couleur de fond blanche pour le contenu */
+  padding: 20px; /* Espacement intérieur pour le contenu */
+  max-width: 450px;
+}
+
+/* Style pour le conteneur des cartes */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; 
+}
+
+
+.data-room-card {
+  flex: 1 1 calc(33.333% - 1rem); 
+  max-width: 850px;
+  background-color: #fafafa; /* Couleur de fond grise très claire pour chaque carte */
+  border: 1px solid #ddd; /* Bordure légère pour chaque carte */
+  border-radius: 10px; /* Coins arrondis pour chaque carte */
+  padding: 20px; /* Espacement intérieur pour chaque carte */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transition pour l'animation */
+  text-align: center; /* Texte centré dans chaque carte */
+  cursor: pointer; /* Curseur de pointeur pour les cartes */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.data-room-card:hover {
+  transform: translateY(-10px); /* Légère élévation au survol */
+}
+
+/* Style pour le nom de chaque salle dans la carte */
+.room-name {
+  font-size: 1.2rem; /* Taille de la police du nom */
  
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem; /* Espace entre les cartes */
-  }
+  text-decoration: underline;
+  color: blue;
+  text-decoration: none;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centrage du texte */
+}
+
+
+.footer-container {
+  margin-bottom: 1%;
+  margin-right: 3.8%;
+  position: fixed;
+  bottom: 0; /* Fixe le conteneur au bas de la fenêtre */
+  left: 100px;
+  right: 0;
+  padding: 25px 20px; /* Espacement intérieur autour des cartes */
+  z-index: 1000; /* Assure que le pied de page est au-dessus du contenu */
+}
+
+.cards-container {
+  display: flex;
+  justify-content: space-around; 
+  align-items: center; 
+  width: 100%;
+  max-width: 1200px; 
+  margin: 0 auto; 
+}
+
+.card {
+  flex: 1;
+  margin: 0 10px; /* Espacement entre les cartes */
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+  color: white; /* Texte en blanc pour contraste */
+  border-radius: 8px; /* Coins arrondis */
+}
+
+.card:hover {
+  transform: scale(1.05); /* Effet de zoom au survol */
   
-  app-card {
-    flex: 1 1 calc(33.333% - 1rem); /* Ajustez l'espace en fonction du gap */
-    box-sizing: border-box;
-  }
+}
+
+.card .icon {
+  font-size: 24px; /* Taille de l'icône */
+  margin-right: 8px; /* Espacement entre l'icône et le texte */
+}
+
+.github-card {
+  background-color: #333333; /* Couleur sombre pour GitHub */
+}
+
+.linkedin-card {
+  background-color: #0077b5; /* Bleu pour LinkedIn */
+}
+
+.instagram-card {
+  background-color: #3050e1; /* Couleur pour Instagram */
+}
+
+
+
+
+
+.cards-container {
+  display: flex;
+  justify-content: space-around; /* Distribue les cartes uniformément */
+  align-items: center; /* Centre les cartes verticalement */
+  width: 100%;
+  max-width: 1200px; /* Largeur maximale pour éviter qu'il ne soit trop large */
+  margin: 0 auto; /* Centre le conteneur horizontalement */
+  margin-right: 20px;
+}
+
+.card {
+  flex: 1;
+  margin: 10PX 20px; /* Espacement entre les cartes */
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s;
+  color: white; /* Texte en blanc pour contraste */
+  border-radius: 8px; /* Coins arrondis */
   
-  .new-row {
-    clear: both;
-  }
+}
+
+.card:hover {
+  transform: scale(1.05); /* Effet de zoom au survol */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Ombre plus prononcée au survol */
+}
+
+.card .icon {
+  font-size: 24px; /* Taille de l'icône */
+  margin-right: 8px; /* Espacement entre l'icône et le texte */
+}
+
+.github-card {
+  background-color: #333333; /* Couleur sombre pour GitHub */
+}
+
+.linkedin-card {
+  background-color: #0077b5; /* Bleu pour LinkedIn */
+}
+
+.instagram-card {
+  background-color: #3050e1; /* Couleur pour Instagram */
+}
+
+
+
+
+
+i.fas {
+  font-size: 16px;
+  margin-bottom: 10%;
+  max-width: 30%;
+}
+.custom-drawer .ant-drawer-content-wrapper {
+  height: 100vh !important;  /* Force la hauteur de l'écran */
+}
+
+.custom-drawer .ant-drawer-content {
+  height: 100vh !important;  /* Force la hauteur de l'écran */
+}
+
+.custom-drawer .ant-drawer-mask {
+  background-color: rgba(0, 0, 0, 0.5) !important;  /* Force l'opacité */
+}
+
+.custom-drawer .ant-drawer-body {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

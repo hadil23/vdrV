@@ -14,6 +14,7 @@ import { ManageDataRoomsComponent } from './manage-data-rooms/manage-data-rooms.
 import { DraftComponent } from './draft/draft.component';
 import { CardComponent } from '../material/card/card.component';
 import { HomeComponent } from './home/home.component';
+import { ChatbotComponent } from './chat-bot/chat-bot.component';
 export const routes: Routes = [
   { path: 'elements', component: FormsElementsComponent },
   { path: 'dynamic', component: FormsDynamicComponent },
@@ -21,11 +22,12 @@ export const routes: Routes = [
   { path: 'datetime', component: FormsDatetimeComponent },
   {path : 'virtual-data-room' , component : VirtualDataRoomComponent},
   {path : 'virtual-data-room/:id' , component : VirtualDataRoomComponent},
-{path:'manage-data-room', component : ManageDataRoomsComponent},
+  {path:'manage-data-room', component : ManageDataRoomsComponent},
   { path: 'create-virtual-room', component: CreateVirtualRoomComponent },
   { path: 'add-new-guest', component: AddNewGuestComponent },
   { path: 'draft', component: DraftComponent },
-  {path :'home' ,component:HomeComponent}
+  {path :'home' ,component:HomeComponent},
+  {path :'chat-bot' ,component:ChatbotComponent},
 ];
 
 @NgModule({

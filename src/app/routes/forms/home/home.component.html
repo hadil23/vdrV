@@ -1,15 +1,61 @@
 <mat-card class="home">
-    <mat-card-header>
-      <mat-card-title> Recent </mat-card-title>
-      <br>
-      <br>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="card-container">
-        <ng-container *ngFor="let room of virtualDataRooms; let i = index">
-          <app-card [title]="room.name" [id]="room.id" [class.new-row]="i % 3 === 0 && i !== 0"></app-card>
-        </ng-container>
-      </div>
-    </mat-card-content>
-  </mat-card>
-  
+  <mat-card-header class="home-header">
+    <mat-card-title class="card-title">Recent</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="card-container">
+      <ng-container *ngFor="let room of virtualDataRooms; let i = index">
+       <div class="data-room-card">
+          <div class="room-name">{{ room.name }}</div>
+        </div>
+      </ng-container>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+
+
+<div class="footer-container">
+  <div class="cards-container">
+    <mat-card class="card linkedin-card" (click)="goToLink(linkedinUrl)">
+      <mat-card-header>
+        <mat-card-title>
+          <i class="fab fa-linkedin-in icon"></i> LinkedIn
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Connect with LinkedIn</p>
+      </mat-card-content>
+    </mat-card>
+    
+    <mat-card class="card github-card" (click)="goToLink(githubUrl)">
+      <mat-card-header>
+        <mat-card-title>
+          <i class="fab fa-github icon"></i> GitHub
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Connect with GitHub</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="card instagram-card" (click)="goToLink(instagramUrl)">
+      <mat-card-header>
+        <mat-card-title>
+          <i class="fab fa-instagram icon"></i> Mail
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Connect with Mail</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+
+  <button class="btn btn-secondary" (click)=" openDrawer()">
+    <i class="fas fa-comment"></i>
+  </button>
+
+ 
+</div>
+
