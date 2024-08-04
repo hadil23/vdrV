@@ -2,11 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Panel } from '../models/panel';
+import { VirtualDataRoom } from '../models/virtual-data-room';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VirtualRoomService {
+
+  
 
   private backendUrl = 'http://localhost:3000';
   private virtualRoomIdSubject: BehaviorSubject<number | null> = new BehaviorSubject<number | null>(null); // Initialisation de virtualRoomIdSubject
@@ -106,7 +109,7 @@ addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any
   }
 
   deleteVirtualDataRoom(vdrId: number): Observable<any> {
-    const url = `${this.backendUrl}/api/virtualDataRooms/${vdrId}`;
+    const url = `${this.backendUrl}/api/virtualDataRooms/virtualDataRooms/${vdrId}`;
     return this.http.delete<any>(url);
   }
 
@@ -119,5 +122,22 @@ addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any
     const url = `${this.backendUrl}/api/files/${fileId}`;
     return this.http.delete<any>(url);
   }
+  getViewCount(id: number): Observable<any> {
+    return this.http.get(`${this.backendUrl}/api/virtualDataRooms/${id}/viewCount`);
+  }
 
+  incrementViewCount(id: number): Observable<any> {
+    const url = `${this.backendUrl}/api/virtualDataRooms/${id}/view`; // Assurez-vous que backendUrl est correctement défini
+    console.log('URL being called:', url); // Vérifiez cette URL
+    return this.http.put(url, {});
+  }
+  
+  updateVirtualDataRoom(id: number, updates: any): Observable<any> {
+    const url = `${this.backendUrl}/api/virtualDataRooms/virtualDataRooms/${id}`;
+    return this.http.put<any>(url, updates);
+  }
+  updatePanel(panelId: number, updates: any): Observable<any> {
+    const url = `${this.backendUrl}/api/panel/${panelId}`;
+    return this.http.put<any>(url, updates );
+  }
 }

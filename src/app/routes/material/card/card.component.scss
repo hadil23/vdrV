@@ -1,7 +1,26 @@
-.demo-card button {
+.Etafakna button {
   text-transform: uppercase;
 }
 
-.demo-card {
-  max-width: 450px;
+.Etafakna {
+  max-width: 980px;
+  max-height: 100%;
+  
 }
+.title-link {
+  color: blue;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.title-link:hover {
+  text-decoration: underline;
+}
+
+.mat-card-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px; 
+}
+
+

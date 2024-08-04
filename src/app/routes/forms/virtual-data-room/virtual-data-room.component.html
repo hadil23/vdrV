@@ -5,13 +5,22 @@
   <button class="btn btn-secondary" (click)="downloadAllFiles()">
     <i class="fas fa-download"></i>
   </button>
-  <button class="btn btn-secondary">
-    <i class="fas fa-comment"></i>
+  <button class="btn btn-secondary" (click)="goToLink(EtafaknaUrl)">
+    Generate Documents
   </button>
 </div>
+<div class = "header">
+  <h4>{{ virtualDataRoomTitle }}</h4>
+<span (click)="incrementViews()">
+  <i nz-icon nzType="eye" nzTheme="outline"></i>
+  <span class="view-count">{{ viewCount }}</span>
+</span>
+</div>
+
 
 <div class="container">
-  <h4>{{ virtualDataRoomTitle }}</h4>
+
+  
 
   <mat-accordion>
     <!-- Afficher les panneaux statiques -->
@@ -48,7 +57,7 @@
           <app-nz-demo-upload-basic (nzChange)="addFileToPanel(panel, $event)"></app-nz-demo-upload-basic>
           <ul>
             <li *ngFor="let file of panel.files">
-               ({{ file.url | formatFileName}})
+              <a [href]="file.url" target="_blank">  ({{ file.url | formatFileName}})</a>
             </li>
           </ul>
         </div>

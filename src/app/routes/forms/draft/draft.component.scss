@@ -1,9 +1,104 @@
-.Etafakna button {
-    text-transform: uppercase;
-  }
-  
-  .Etafakna {
-    max-width: 550px;
-    
-  }
-  
+.card-container {
+  display: flex;
+  width:60%;
+  flex-direction: column;
+  margin-left: 15%;
+  gap: 1rem; /* Espace entre chaque carte */
+}
+
+
+
+.card-title{
+
+  font-size: 1.3rem;
+}
+
+.data-room-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff; /* Fond blanc */
+  border-radius: 12px; /* Bords arrondis */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  padding: 1rem;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+}
+
+.select-checkbox {
+  margin-right: 1rem; /* Espace entre la case à cocher et l'image */
+}
+
+.room-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 1rem; /* Espace entre l'image et les informations */
+}
+
+.room-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.room-name {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.room-description {
+  font-size: 14px;
+  color: #666;
+}
+
+.room-meta {
+  display: flex;
+  align-items: center;
+}
+
+.created-date {
+  font-size: 14px;
+  color: #666;
+  margin-right: 1rem; /* Espace entre la date et les commentaires */
+}
+
+
+
+
+.more-icon {
+  cursor: pointer;
+}
+
+.mat-menu-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  font-family: Roboto, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000de;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.mat-menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.mat-icon {
+  margin-right: 8px;
+  font-size: 20px;
+  color: black;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+
+
+
+.delete-menu-item {
+  color: red;
+}

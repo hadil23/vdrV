@@ -1,20 +1,12 @@
-{"menu": {
-  "dashboard": "Dashboard", 
-   "Data-Room": "Data-Room",
-    "Data-Room.Create": "Create",
-    
-    
-"Virtual Data Room": "Virtual Data Room",
 
-    "profile": "Profile",
-    "profile.overview": "Overview",
-    "profile.settings": "Settings",
-    "sesions": "sesions",
-    "sessions.403": "403",
-    "sessions.404": "404",
-    "sessions.500": "500",
-    "Manage data room":"Manage data room",
-    "Manage data room.Mange Data":"Mange Data",
+{"menu": {
+  "Home": "Home", 
+   "Data-Room": "Data-Room",
+"Virtual Data Room": "Virtual Data Room",
+   "manage":"Manage",
+    
+    
+    
     "draft": "Draft"
   },
   "validations": {
@@ -76,3 +68,8 @@
   "have_an_account": "Already have an account",
   "restore_defaults": "Restore defaults"
 }
+
+
+
+
+

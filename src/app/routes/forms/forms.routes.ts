@@ -15,6 +15,7 @@ import { DraftComponent } from './draft/draft.component';
 import { CardComponent } from '../material/card/card.component';
 import { HomeComponent } from './home/home.component';
 import { ChatbotComponent } from './chat-bot/chat-bot.component';
+import { EditDraftComponent } from './edit-draft/edit-draft.component';
 export const routes: Routes = [
   { path: 'elements', component: FormsElementsComponent },
   { path: 'dynamic', component: FormsDynamicComponent },
@@ -28,6 +29,7 @@ export const routes: Routes = [
   { path: 'draft', component: DraftComponent },
   {path :'home' ,component:HomeComponent},
   {path :'chat-bot' ,component:ChatbotComponent},
+  {path:'edit-draft',component : EditDraftComponent}
 ];
 
 @NgModule({

@@ -1,0 +1,17 @@
+/* edit-draft.component.scss */
+.virtual-data-room-card {
+    margin: 25px;
+  }
+  
+  mat-expansion-panel {
+    margin-bottom: 18px;
+  }
+  
+  mat-list-item {
+    cursor: pointer;
+  }
+  
+  mat-list-item:hover {
+    background-color: #f0f0f0;
+  }
+  

@@ -97,6 +97,6 @@ export const appConfig: ApplicationConfig = {
         monthYearA11yLabel: 'MMMM YYYY',
         popupHeaderDateLabel: 'MMM DD, ddd',
       },
-    }), provideAnimationsAsync(),
+    }), provideAnimationsAsync(), provideAnimationsAsync(),
   ],
 };

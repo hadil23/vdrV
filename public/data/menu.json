@@ -1,76 +1,37 @@
 {
   "menu": [
     {
-      "route": "dashboard",
-      "name": "dashboard",
+      "route": "forms/home",
+      "name": "Home",
       "type": "link",
-      "icon": "dashboard",
+      "icon": "home",
       "badge": {
         "color": "red-50",
         "value": "5"
       }
     },
     
+ 
     {
-      "route": "forms",
-      "name": "Data-Room",
-      "type": "sub",
+      "route": "forms/create-virtual-room",
       "icon": "folder",
-      "children": [
-        {
-          "route": "create-virtual-room",
-          "name": "Create",
-          "icon": "form",
-      "type": "link"
-        }
-      ]
-      
-
-      
-    },
+     "name": "Data-Room",
+          "type": "link"
+        },
     {
       "route": "forms/virtual-data-room",
       "icon": "appstore",
      "name": "Virtual Data Room",
           "type": "link"
-        },
-      
-   
-   
-     
+          }, 
+    
+
     
     {
-      "route": "profile",
-      "name": "profile",
-      "type": "sub",
-      "icon": "person",
-      "children": [
-        {
-          "route": "overview",
-          "name": "overview",
-          "type": "link"
-        },
-        {
-          "route": "settings",
-          "name": "settings",
-          "type": "link"
-        }
-      ]
-    },
-    
-    {
-      "route": "forms",
-      "name": "Manage data room",
-      "type": "sub",
-      "icon": "settings",
-      "children": [
-        {
-          "route": "manage-data-room",
-          "name": "Mange Data",
-            "icon": "manage_accounts",
-          "type": "link"
-        }
-      ]
+      "route": "/forms/manage-data-room",
+      "name": "Manage ",
+      "type": "link",
+      "icon": "settings"
     },
     {
       "route": "/forms/Comment",
@@ -80,3 +41,4 @@
     }
   ]
 }
+

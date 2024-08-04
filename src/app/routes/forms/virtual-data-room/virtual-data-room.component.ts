@@ -20,7 +20,7 @@ import { AddNewGuestComponent } from '../add-new-guest/add-new-guest.component';
 
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
-
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { FormatFileNamePipe } from '../format-file-name.pipe' ; 
 export enum defaultGuestPermission {
@@ -37,7 +37,7 @@ export enum defaultGuestPermission {
     MatExpansionModule,
     NzDrawerModule,
     CommonModule,
-    
+    NzIconModule,
     NzDemoUploadBasicComponent,
     MatDialogModule, 
     DragDropModule,
@@ -62,7 +62,7 @@ export class VirtualDataRoomComponent implements OnInit {
   virtualDataRoomTitle: string = '';
    access: string = '';
   defaultGuestPermission: defaultGuestPermission = defaultGuestPermission.Download; 
-
+  viewCount: number | undefined;
 
 
 
@@ -117,8 +117,8 @@ private nzDrawerService = inject (NzDrawerService);
 
 
 
-  
   ngOnInit(): void {
+    //this.getViewCount(1);
     this.activatedRoute.queryParams.subscribe(params => {
       const virtualRoomIdString = params.id;
   
@@ -161,6 +161,9 @@ private nzDrawerService = inject (NzDrawerService);
               }, error => {
                 console.error('Error fetching panels:', error);
               });
+  
+              // Appeler incrementViews après avoir récupéré toutes les données
+              this.incrementViews();
             } else {
               console.error('No data received for virtualRoomId:', virtualRoomId);
             }
@@ -176,8 +179,32 @@ private nzDrawerService = inject (NzDrawerService);
     });
   }
   
+  incrementViews(): void {
+    if (this.virtualRoomId) {
+      this.virtualRoomService.incrementViewCount(this.virtualRoomId).subscribe(
+        response => {
+          console.log('View count incremented:', response);
+        },
+        error => {
+          console.error('Error incrementing view count:', error);
+        }
+      );
+    }
+    
+  }
   
- 
+  EtafaknaUrl: string = 'https://www.e-tafakna.app/';
+    goToLink(url: string): void {
+    window.open(url, '_blank'); // Ouvrir le lien dans un nouvel onglet
+  }
+  
+  /*getViewCount(id: number): void {
+    this.virtualRoomService.getViewCount(id).subscribe((data: any) => {
+      this.viewCount = data.viewCount;
+    }, error => {
+      console.error('Error fetching view count:', error);
+    });
+  }*/
 
   
   private panelId!: string; // declare a private variable to store the panel ID

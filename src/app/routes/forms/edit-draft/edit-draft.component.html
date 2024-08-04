@@ -1,0 +1,36 @@
+<mat-card *ngIf="virtualDataRoomTitle" class="virtual-data-room-card">
+    <mat-card-header>
+      <mat-card-title>
+        <span *ngIf="!editingVirtualDataRoomTitle" (click)="editingVirtualDataRoomTitle = true">{{ virtualDataRoomTitle }}</span>
+        <input *ngIf="editingVirtualDataRoomTitle" [(ngModel)]="newTitle" (blur)=" updateVirtualDataRoomTitle()" placeholder="VDR Title" />
+      </mat-card-title>
+    </mat-card-header>
+  
+    <mat-card-content>
+      <div *ngIf="panels.length > 0; else noPanels">
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let panel of panels">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <span *ngIf="!editingPanelTitle[panel.id]" (click)="editingPanelTitle[panel.id] = true">{{ panel.title }}</span>
+                <input *ngIf="editingPanelTitle[panel.id]" [(ngModel)]="panel.title" (blur)="savePanelTitle(panel)" placeholder="Panel Title" />
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+  
+            <div *ngIf="panel">
+              <app-nz-demo-upload-basic (nzChange)="addFileToPanel(panel, $event)"></app-nz-demo-upload-basic>
+              <ul>
+                <li *ngFor="let file of panel.files">
+                  <a [href]="file.url" target="_blank">{{ file.url | formatFileName }}</a>
+                </li>
+              </ul>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <ng-template #noPanels>
+        <p>No panels available.</p>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+  

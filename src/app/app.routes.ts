@@ -8,7 +8,7 @@ import { Error404Component } from './routes/sessions/404.component';
 import { Error500Component } from './routes/sessions/500.component';
 import { LoginComponent } from './routes/sessions/login/login.component';
 import { RegisterComponent } from './routes/sessions/register/register.component';
-
+import { DefaultInterceptor } from '../app/default-interceptor';
 export const routes: Routes = [
   {
     path: '',
