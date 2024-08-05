@@ -118,23 +118,22 @@ private nzDrawerService = inject (NzDrawerService);
 
 
   ngOnInit(): void {
-    //this.getViewCount(1);
     this.activatedRoute.queryParams.subscribe(params => {
-      const virtualRoomIdString = params.id;
+      const virtualRoomIdString = params['id']; // Utilisez params['id'] pour accéder à l'id directement depuis les paramètres de requête
   
       if (virtualRoomIdString) {
-        const virtualRoomId = +virtualRoomIdString; // Convertir en nombre
+        const virtualRoomId = parseInt(virtualRoomIdString, 10);
   
         if (!isNaN(virtualRoomId)) {
           this.virtualRoomService.getVirtualDataRoomById(virtualRoomId).subscribe((virtualDataRoom: any) => {
             console.log('Data received from API:', virtualDataRoom);
   
             if (virtualDataRoom) {
-              this.virtualDataRoomTitle = virtualDataRoom.name || '';
+              this.virtualDataRoomTitle = virtualDataRoom.name || ''; // Assurez-vous d'utiliser le bon champ pour le titre
               this.access = virtualDataRoom.access || '';
               this.defaultGuestPermission = this.mapPermission(virtualDataRoom.defaultGuestPermission) || defaultGuestPermission.Download;
-              this.virtualRoomId = virtualRoomId; // Définir virtualRoomId pour une utilisation ultérieure
               this.virtualRoomService.setVirtualRoomId(virtualRoomId);
+  
               this.virtualRoomService.getPanelsByVdrId(virtualRoomId).subscribe((panels: any) => {
                 console.log('Panels data received from API:', panels);
                 const formattedPanels = panels.map((panel: { id: any; name: any; }) => ({
@@ -178,6 +177,7 @@ private nzDrawerService = inject (NzDrawerService);
       }
     });
   }
+  
   
   incrementViews(): void {
     if (this.virtualRoomId) {

@@ -1,61 +1,26 @@
-<mat-card class="home">
+<mat-card class="card-container">
   <mat-card-header class="home-header">
     <mat-card-title class="card-title">Recent</mat-card-title>
   </mat-card-header>
+
   <mat-card-content>
-    <div class="card-container">
+    <div class="cards-container">
       <ng-container *ngFor="let room of virtualDataRooms; let i = index">
-       <div class="data-room-card">
-          <div class="room-name">{{ room.name }}</div>
-        </div>
+        <mat-card class="data-room-card">
+          <div class="card-content">
+            <mat-checkbox class="select-checkbox"></mat-checkbox>
+            <div class="room-info">
+              <mat-card-title class="room-name"  (click)="navigateToVirtualDataRoom(room.id)"
+              style="cursor: pointer;">{{ room.name }} 
+                 </mat-card-title>
+              <!-- Additional content like image or description can be added here -->
+            </div>
+          </div>
+          <mat-card-actions>
+            <!-- Actions like buttons or menu items can be added here -->
+          </mat-card-actions>
+        </mat-card>
       </ng-container>
     </div>
   </mat-card-content>
 </mat-card>
-
-
-
-<div class="footer-container">
-  <div class="cards-container">
-    <mat-card class="card linkedin-card" (click)="goToLink(linkedinUrl)">
-      <mat-card-header>
-        <mat-card-title>
-          <i class="fab fa-linkedin-in icon"></i> LinkedIn
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Connect with LinkedIn</p>
-      </mat-card-content>
-    </mat-card>
-    
-    <mat-card class="card github-card" (click)="goToLink(githubUrl)">
-      <mat-card-header>
-        <mat-card-title>
-          <i class="fab fa-github icon"></i> GitHub
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Connect with GitHub</p>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="card instagram-card" (click)="goToLink(instagramUrl)">
-      <mat-card-header>
-        <mat-card-title>
-          <i class="fab fa-instagram icon"></i> Mail
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Connect with Mail</p>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-
-  <button class="btn btn-secondary" class ="drawer" (click)=" openDrawer()">
-    <i class="fas fa-comment"></i>
-  </button>
-
- 
-</div>
-
