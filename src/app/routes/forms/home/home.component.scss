@@ -1,21 +1,24 @@
 .card-container {
   display: flex;
-  width: 60%;
+  width:60%;
   flex-direction: column;
   margin-left: 15%;
   gap: 1rem; /* Espace entre chaque carte */
 }
 
-.card-title {
+
+
+.card-title{
+
   font-size: 1.3rem;
 }
 
 .data-room-card {
   display: flex;
   flex-direction: column;
- 
+  background-color: #fff; /* Fond blanc */
   border-radius: 12px; /* Bords arrondis */
- 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
   padding: 1rem;
 }
 
@@ -25,7 +28,14 @@
 }
 
 .select-checkbox {
-  margin-right: 1rem; /* Espace entre la case à cocher et le nom */
+  margin-right: 1rem; /* Espace entre la case à cocher et l'image */
+}
+
+.room-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 1rem; /* Espace entre l'image et les informations */
 }
 
 .room-info {
@@ -37,6 +47,7 @@
 .room-name {
   font-size: 16px;
   font-weight: bold;
+  color: #1C6AE4;
 }
 
 .room-description {
@@ -54,6 +65,9 @@
   color: #666;
   margin-right: 1rem; /* Espace entre la date et les commentaires */
 }
+
+
+
 
 .more-icon {
   cursor: pointer;
@@ -83,6 +97,28 @@
   transition: color 0.3s ease;
 }
 
+
+
+
 .delete-menu-item {
   color: red;
 }
+
+.button {
+  background-color: #1C6AE4;
+  width: 27%;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+ margin-left: 100%;
+ margin-top: 5%;
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+
+

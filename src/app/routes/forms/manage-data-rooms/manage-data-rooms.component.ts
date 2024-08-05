@@ -1,124 +1,134 @@
-
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
-import { ReactiveFormsModule } from '@angular/forms'; // Optional
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { VirtualRoomService } from '../services/virtual-room.service';
+import { Router } from '@angular/router';
 
-interface DataRoom {
-  selected?: boolean;
+interface VirtualDataRoom {
+  id: number;
   name: string;
+  createdAt: string;
   owner: string;
   views: number;
-  date: string;
-  status: string;
+  selected: boolean;
+  date: string | number | Date; 
 }
 
 @Component({
   selector: 'app-manage-data-rooms',
   standalone: true,
-  imports: [MatIconModule, CommonModule, MatCheckboxModule, MatMenuModule, ReactiveFormsModule, FormsModule],
+  imports: [
+    MatIconModule,
+    CommonModule,
+    MatCheckboxModule,
+    MatMenuModule,
+    ReactiveFormsModule,
+    FormsModule
+  ],
   templateUrl: './manage-data-rooms.component.html',
-  styleUrls: ['./manage-data-rooms.component.scss']
+  styleUrls: ['./manage-data-rooms.component.scss'],
+  providers: [VirtualRoomService]
 })
 export class ManageDataRoomsComponent implements OnInit {
   status: string = '';
   searchQuery = '';
-
-  @Input() dataRooms: DataRoom[] = []; // Receive dataRooms from parent component (optional)
-
+  virtualDataRooms: VirtualDataRoom[] = [];
   sortBy: string = 'newest';
 
-  constructor() { }
+  constructor(private virtualRoomService: VirtualRoomService, private router: Router) {}
 
   ngOnInit(): void {
-    this.initializeDataRooms();
-    this.sortDataRooms(this.sortBy);
+    this.fetchDataRooms();
   }
 
-  initializeDataRooms() {
-    // Provide initial data if not received from parent component
-    if (!this.dataRooms || !this.dataRooms.length) {
-      this.dataRooms = [
-        { name: 'E-tafakna', owner: 'Norchen', views: 100, date: '2024-04-28', status: 'draft' },
-        { name: 'Tekupers', owner: 'Khaled', views: 100, date: '2024-04-28', status: 'send' },
-        { name: 'E-tafakna', owner: 'Norchen', views: 100, date: '2024-04-28', status: 'draft' },
-        { name: 'Tekupers', owner: 'Khaled', views: 100, date: '2024-04-28', status: 'send' },
-        { name: 'E-tafakna', owner: 'Norchen', views: 100, date: '2024-04-28', status: 'draft' },
-        { name: 'Tekupers', owner: 'Khaled', views: 100, date: '2024-04-28', status: 'send' }
-      ];
-    }
+  fetchDataRooms(): void {
+    this.virtualRoomService.getAllVirtualDataRooms().subscribe(
+      (dataRooms: any[]) => { // Assurez-vous que `dataRooms` est du type correct ici
+        this.virtualDataRooms = dataRooms.map(room => ({
+          id: room.id,
+          name: room.name,
+          createdAt: room.createdAt,
+          owner: room.owner || 'Hadil',
+          views: room.views || 0, // Assurez-vous que `views` est toujours un nombre
+          selected: false, // Initialiser `selected` à false
+          date: room.createdAt // Assigner `createdAt` à `date`
+        }));
+        this.sortDataRooms(this.sortBy);
+      },
+      (error) => {
+        console.error('Error fetching data rooms:', error);
+      }
+    );
   }
 
-  filterDataRooms() {
+  filterDataRooms(): void {
     if (this.searchQuery) {
-      this.dataRooms = this.dataRooms.filter(room =>
+      this.virtualDataRooms = this.virtualDataRooms.filter(room =>
         room.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         room.owner.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     } else {
-      this.initializeDataRooms();
+      this.fetchDataRooms();
     }
   }
 
-  sortDataRooms(sortBy: string) {
+  sortDataRooms(sortBy: string): void {
     this.sortBy = sortBy;
     switch (sortBy) {
       case 'newest':
-        this.dataRooms.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        this.virtualDataRooms.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         break;
       case 'oldest':
-        this.dataRooms.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        this.virtualDataRooms.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
         break;
       case 'views':
-        this.dataRooms.sort((a, b) => a.views - b.views);
+        this.virtualDataRooms.sort((a, b) => b.views - a.views);
         break;
       case 'owner':
-        this.dataRooms.sort((a, b) => a.owner.localeCompare(b.owner));
+        this.virtualDataRooms.sort((a, b) => a.owner.localeCompare(b.owner));
         break;
       default:
         break;
     }
   }
 
-  selectAll(event: Event) {
-    if (this.dataRooms) {
-      const isChecked = (event.target as HTMLInputElement).checked;
-      this.dataRooms.forEach(room => room.selected = isChecked);
+  selectAll(event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.virtualDataRooms.forEach(room => room.selected = isChecked);
+  }
+
+  editDataRoom(room: VirtualDataRoom): void {
+    console.log('Edit Data Room:', room);
+  }
+
+  addDataRoom(room: VirtualDataRoom): void {
+    console.log('Add Data Room:', room);
+  }
+
+  viewDataRoom(room: VirtualDataRoom): void {
+    console.log('View Data Room:', room);
+  }
+
+  getDataRoomLink(room: VirtualDataRoom): void {
+    console.log('Get Data Room Link:', room);
+  }
+
+  manageAccess(room: VirtualDataRoom): void {
+    console.log('Manage Access:', room);
+  }
+
+  deleteDataRoom(room: VirtualDataRoom): void {
+    const index = this.virtualDataRooms.indexOf(room);
+    if (index >= 0) {
+      this.virtualDataRooms.splice(index, 1);
     }
   }
 
-  editDataRoom(index: number) {
-    console.log('Edit Data Room:', this.dataRooms[index]);
-  }
-
-  addDataRoom(index: number) {
-    console.log('Add Data Room:', this.dataRooms[index]);
-  }
-
-  viewDataRoom(index: number) {
-    console.log('View Data Room:', this.dataRooms[index]);
-  }
-
-  getDataRoomLink(index: number) {
-    console.log('Get Data Room Link:', this.dataRooms[index]);
-  }
-
-  manageAccess(index: number) {
-    console.log('Manage Access:', this.dataRooms[index]);
-  }
-
-  deleteDataRoom(index: number) {
-    if (this.dataRooms) {
-      this.dataRooms.splice(index, 1);
-    }
+  navigateToVirtualDataRoom(id: number): void {
+    this.router.navigate(['/forms/virtual-data-room', id]);
   }
 }
-
-
-
-
-
-

@@ -77,7 +77,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "buildTarget": "ng-matero:build",
-            "proxyConfig": "proxy.config.js"
+            "proxyConfig": "proxy.config.js",
+            "port": 4200  
           },
           "configurations": {
             "production": {

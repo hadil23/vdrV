@@ -60,11 +60,11 @@ export class AddNewGuestComponent implements OnInit {
     },
   ];
 
-  virtualDataRoomId: number =192;
-  userId: number = 17;
+ 
+  userId: number = 18;
+  virtualDataRoomId: string ='';
 
   ngOnInit(): void {
-    // Récupérer l'ID de la Virtual Data Room depuis les paramètres de l'URL
     this.route.queryParams.subscribe(params => {
       this.virtualDataRoomId = params['id'];
     });
@@ -83,7 +83,7 @@ export class AddNewGuestComponent implements OnInit {
       this.invitationService.createInvitation(invitationData).subscribe(
         response => {
           console.log('Invitation created:', response);
-          this.router.navigate(['/verify-email'], { queryParams: { id: this.virtualDataRoomId } });
+          this.router.navigate(['/forms/verify-email'], { queryParams: { id: this.virtualDataRoomId } });
         },
         error => {
           console.error('Error creating invitation:', error);
