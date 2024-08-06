@@ -207,7 +207,7 @@ private nzDrawerService = inject (NzDrawerService);
   }*/
 
   
-  private panelId!: string; // declare a private variable to store the panel ID
+  private panelId!: string; 
 
   createPanel(): void {
     this.virtualRoomService.getVirtualRoomId().subscribe(virtualRoomId => {
