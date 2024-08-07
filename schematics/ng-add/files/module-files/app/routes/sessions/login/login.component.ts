@@ -1,63 +1,78 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { filter } from 'rxjs';
-
-import { AuthService } from '@core/authentication';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from 'app/routes/sessions/register/auth.service'; // Assurez-vous d'ajouter le bon chemin
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrls: ['./login.component.scss'],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    MatButtonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    TranslateModule,
+    MatProgressSpinnerModule,
+  ]
 })
 export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
-  private readonly auth = inject(AuthService);
+  private readonly authService = inject(AuthService);
 
-  isSubmitting = false;
-
-  loginForm = this.fb.nonNullable.group({
-    username: ['ng-matero', [Validators.required]],
-    password: ['ng-matero', [Validators.required]],
-    rememberMe: [false],
+  loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]], // Changement de `username` à `email`
+    password: ['', [Validators.required]],
+    rememberMe: [false]
   });
 
-  get username() {
-    return this.loginForm.get('username')!;
+  get email() {
+    return this.loginForm.get('email');
   }
 
   get password() {
-    return this.loginForm.get('password')!;
+    return this.loginForm.get('password');
   }
 
   get rememberMe() {
-    return this.loginForm.get('rememberMe')!;
+    return this.loginForm.get('rememberMe');
   }
+
+  isSubmitting = false;
 
   login() {
     this.isSubmitting = true;
-
-    this.auth
-      .login(this.username.value, this.password.value, this.rememberMe.value)
-      .pipe(filter(authenticated => authenticated))
-      .subscribe({
-        next: () => {
-          this.router.navigateByUrl('/');
+  
+    const email = this.email?.value?.trim() ?? ''; // Supprimer les espaces superflus
+    const password = this.password?.value?.trim() ?? '';
+  
+    if (this.loginForm.valid) {
+      this.authService.login(email, password).subscribe({
+        next: (response) => {
+          console.log('Login successful', response);
+          this.router.navigateByUrl('/forms/home');
         },
-        error: (errorRes: HttpErrorResponse) => {
-          if (errorRes.status === 422) {
-            const form = this.loginForm;
-            const errors = errorRes.error.errors;
-            Object.keys(errors).forEach(key => {
-              form.get(key === 'email' ? 'username' : key)?.setErrors({
-                remote: errors[key][0],
-              });
-            });
-          }
+        error: (error) => {
+          console.error('Login failed', error);
           this.isSubmitting = false;
-        },
+        }
       });
+    } else {
+      console.error('Email and password are required');
+      this.isSubmitting = false;
+    }
   }
+  
 }
