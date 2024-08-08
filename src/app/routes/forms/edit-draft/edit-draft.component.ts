@@ -25,6 +25,7 @@ interface VirtualDataRoom {
   name: string;
   access: string;
   defaultGuestPermission: string;
+  expiryDateTime : string;
 }
 
 @Component({
@@ -81,6 +82,7 @@ export class EditDraftComponent implements OnInit {
               if (virtualDataRoom) {
                 this.virtualDataRoomTitle = virtualDataRoom.name || '';
                 this.access = virtualDataRoom.access || '';
+                this.expiryDateTime = virtualDataRoom.expiryDateTime;
                 this.defaultGuestPermission = this.mapPermission(virtualDataRoom.defaultGuestPermission) || 'Download';
                 this.virtualRoomId = virtualRoomId;
                 this.virtualRoomService.setVirtualRoomId(virtualRoomId);
@@ -204,12 +206,14 @@ export class EditDraftComponent implements OnInit {
   updateVirtualDataRoomTitle(): void {
     if (this.virtualRoomId) {
       const updateData: any = {};
-
+  
       if (this.newTitle) updateData.name = this.newTitle;
       if (this.expiryDateTime) updateData.expiryDateTime = this.expiryDateTime;
       if (this.access) updateData.access = this.access;
       if (this.defaultGuestPermission) updateData.defaultGuestPermission = this.defaultGuestPermission;
-
+  
+      console.log('Update data:', updateData); // Add this line to log the updateData object
+  
       this.virtualRoomService.updateVirtualDataRoom(this.virtualRoomId, updateData)
         .subscribe({
           next: (response) => {
