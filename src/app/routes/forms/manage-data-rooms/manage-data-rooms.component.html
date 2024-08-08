@@ -35,13 +35,26 @@
                   <div class="dropdown">
                     <button class="dropbtn"><i class="fas fa-ellipsis-v"></i></button>
                     <div class="dropdown-content">
-                      <a href="#" (click)="addDataRoom(dataRoom)"><i class="fas fa-plus"></i> Ajouter</a>
-                      <a href="#" (click)="editDataRoom(dataRoom)"><i class="fas fa-edit"></i> Modifier</a>
-                      <a href="#" (click)="deleteDataRoom(dataRoom)"><i class="fas fa-trash"></i> Supprimer</a>
-                      <a href="#" (click)="viewDataRoom(dataRoom)"><i class="fas fa-eye"></i> Voir DataRoom</a>
-                      <a href="#" (click)="getDataRoomLink(dataRoom)"><i class="fas fa-link"></i> Obtenir le lien</a>
-                      <a href="#" (click)="manageAccess(dataRoom)"><i class="fas fa-cogs"></i> Gérer l'accès</a>
+                      <span class="dropdown-item" (click)="goToCreateVirtualRoom()">
+                        <i class="fas fa-plus"></i> Ajouter
+                      </span>
+                      <span class="dropdown-item" (click)="editDataRoom(dataRoom.id)">
+                        <i class="fas fa-edit"></i> Modifier
+                      </span>
+                      <span class="dropdown-item" (click)="deleteDataRoom(dataRoom)">
+                        <i class="fas fa-trash"></i> Supprimer
+                      </span>
+                      <span class="dropdown-item" (click)="navigateToVirtualDataRoom(dataRoom.id)">
+                        <i class="fas fa-eye"></i> Voir DataRoom
+                      </span>
+                      <span class="dropdown-item" (click)="getDataRoomLink(dataRoom)">
+                        <i class="fas fa-link"></i> Obtenir le lien
+                      </span>
+                      <span class="dropdown-item" (click)="manageAccess(dataRoom)">
+                        <i class="fas fa-cogs"></i> Gérer l'accès
+                      </span>
                     </div>
+                    
                   </div>
                 </td>
               </tr>

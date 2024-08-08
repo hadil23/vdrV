@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatMenuModule } from '@angular/material/menu';
@@ -7,6 +7,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { VirtualRoomService } from '../services/virtual-room.service';
 import { Router } from '@angular/router';
+import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 interface VirtualDataRoom {
   id: number;
@@ -23,11 +26,13 @@ interface VirtualDataRoom {
   standalone: true,
   imports: [
     MatIconModule,
+    MatDialogModule,
     CommonModule,
     MatCheckboxModule,
     MatMenuModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    AlertDialogComponent
   ],
   templateUrl: './manage-data-rooms.component.html',
   styleUrls: ['./manage-data-rooms.component.scss'],
@@ -39,6 +44,8 @@ export class ManageDataRoomsComponent implements OnInit {
   virtualDataRooms: VirtualDataRoom[] = [];
   sortBy: string = 'newest';
 
+  private readonly toast = inject(ToastrService);
+  private readonly dialog = inject(MatDialog);
   constructor(private virtualRoomService: VirtualRoomService, private router: Router) {}
 
   ngOnInit(): void {
@@ -101,12 +108,13 @@ export class ManageDataRoomsComponent implements OnInit {
     this.virtualDataRooms.forEach(room => room.selected = isChecked);
   }
 
-  editDataRoom(room: VirtualDataRoom): void {
-    console.log('Edit Data Room:', room);
+  
+  editDataRoom(id: number): void {
+    this.router.navigate(['/forms/edit-draft' ,id], { queryParams: { id  } });
   }
 
-  addDataRoom(room: VirtualDataRoom): void {
-    console.log('Add Data Room:', room);
+  goToCreateVirtualRoom(): void {
+    this.router.navigateByUrl('/forms/create-virtual-room');
   }
 
   viewDataRoom(room: VirtualDataRoom): void {
@@ -114,7 +122,23 @@ export class ManageDataRoomsComponent implements OnInit {
   }
 
   getDataRoomLink(room: VirtualDataRoom): void {
-    console.log('Get Data Room Link:', room);
+    // Construisez l'URL avec les paramètres de requête
+    const dataRoomUrl = `/forms/virtual-data-room?id=${room.id}`;
+  
+    // Construit l'URL complète
+    const fullUrl = `http://localhost:4200${dataRoomUrl}`;
+    
+    console.log('Get Data Room Link:', fullUrl);
+  
+    // Si vous souhaitez, vous pouvez afficher le lien ou le copier dans le presse-papiers
+    // Exemple pour copier dans le presse-papiers :
+    navigator.clipboard.writeText(fullUrl).then(() => {
+      console.log('Link copied to clipboard');
+      this.openDialog('Link copied to clipboard succesufly');
+    }).catch(err => {
+      console.error('Failed to copy link: ', err);
+      this.openDialog('Failed to copy link');
+    });
   }
 
   manageAccess(room: VirtualDataRoom): void {
@@ -125,10 +149,25 @@ export class ManageDataRoomsComponent implements OnInit {
     const index = this.virtualDataRooms.indexOf(room);
     if (index >= 0) {
       this.virtualDataRooms.splice(index, 1);
-    }
+    };
+    this.openDialog('are u sure you want to delete virtual data room?');
+  }
+ 
+
+  openDialog(message: string): void {
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '250px',
+      data: { message: message } // Pass the message to the dialog
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
   }
 
   navigateToVirtualDataRoom(id: number): void {
-    this.router.navigate(['/forms/virtual-data-room', id]);
+    this.router.navigate(['/forms/virtual-data-room', id], {
+      queryParams: { id: id, name: name }
+    })
   }
 }

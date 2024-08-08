@@ -31,6 +31,7 @@ export const routes: Routes = [
   {path :'home' ,component:HomeComponent},
   {path :'chat-bot' ,component:ChatbotComponent},
   {path:'edit-draft',component : EditDraftComponent},
+  {path:'edit-draft/:id',component : EditDraftComponent},
   {path:'verify-email',component:VerifyEmailComponent}
 ];
 

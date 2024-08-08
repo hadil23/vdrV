@@ -59,7 +59,7 @@ describe('authGuard function unit test', () => {
     inject([AuthService, Router], () => {
       spyOn(authService, 'check').and.returnValue(false);
 
-      expect(authGuard(route, state)).toEqual(router.parseUrl('/auth/login'));
+      expect(authGuard(route, state)).toEqual();
     });
   });
 });

@@ -16,8 +16,8 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl =" http://localhost:3000/api";
-  private backenUrl = `${this.apiUrl}/users`; 
+  private apiUrl =" http://localhost:3000/api/users";
+  private backenUrl = `${this.apiUrl}`; 
 
   constructor(private http: HttpClient) {}
 

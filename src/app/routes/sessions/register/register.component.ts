@@ -74,7 +74,7 @@ constructor (private router : Router) {}
       this.authService.register(user).subscribe({
         next: (newUser) => {
           console.log('Utilisateur enregistré', newUser);
-          this.router.navigateByUrl('/');
+          this.router.navigateByUrl('/login');
        
           // Rediriger ou afficher un message de succès
         },
@@ -89,3 +89,5 @@ constructor (private router : Router) {}
     this.router.navigate(['/forms/home']);
   }
 }
+
+

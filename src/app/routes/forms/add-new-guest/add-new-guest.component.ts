@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { ToastrService } from 'ngx-toastr';
@@ -32,6 +32,7 @@ export class AddNewGuestComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(MatDialog);
 
+  @Output() onInviteClick = new EventEmitter<void>();
   form = new FormGroup({});
   model = { email: '', firstName: '', lastName: '' };
   fields: FormlyFieldConfig[] = [
@@ -64,7 +65,7 @@ export class AddNewGuestComponent implements OnInit {
     },
   ];
 
-  userId: number = 18;
+  userId: number = 36;
   virtualDataRoomId: string = '';
 
   ngOnInit(): void {

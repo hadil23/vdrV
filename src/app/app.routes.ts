@@ -13,8 +13,7 @@ export const routes: Routes = [
   {
     path: '',
     component: AdminLayoutComponent,
-    canActivate: [authGuard],
-    canActivateChild: [authGuard],
+  
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent },
@@ -63,5 +62,5 @@ export const routes: Routes = [
       { path: 'register', component: RegisterComponent },
     ],
   },
-  { path: '**', redirectTo: 'dashboard' },
+
 ];

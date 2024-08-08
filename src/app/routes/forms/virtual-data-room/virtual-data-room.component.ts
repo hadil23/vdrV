@@ -81,7 +81,7 @@ private nzDrawerService = inject (NzDrawerService);
   private virtualRoomService = inject(VirtualRoomService);
   private cloudinaryService = inject(CloudinaryService);
   private cd= inject(ChangeDetectorRef);
-  userId = '17';
+  userId = '36';
   panel: any;
 
   virtualRoomId: any;
@@ -376,6 +376,9 @@ isDialogOpen = false;
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       this.isDialogOpen = false;
+    });
+    dialogRef.componentInstance.onInviteClick.subscribe(() => {
+      dialogRef.close();
     });
   }
  

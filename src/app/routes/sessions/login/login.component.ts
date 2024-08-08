@@ -1,14 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AuthService } from '../register/auth.service'; // Assurez-vous d'ajouter le bon chemin
+import { AuthService } from '../register/auth.service';
+import { HomeComponent } from 'app/routes/forms/home/home.component';
 
 @Component({
   selector: 'app-login',
@@ -17,62 +18,43 @@ import { AuthService } from '../register/auth.service'; // Assurez-vous d'ajoute
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     RouterLink,
+    FormsModule,
+    ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,
+    MatCheckboxModule,
     MatFormFieldModule,
     MatInputModule,
     TranslateModule,
-    MatProgressSpinnerModule,
-  ]
+     HomeComponent,
+  ],
 })
 export class LoginComponent {
-  private readonly fb = inject(FormBuilder);
-  private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
-
+  private readonly fb = inject(FormBuilder);
+constructor (private router : Router){}
   loginForm = this.fb.group({
-    email: ['', [Validators.required, Validators.email]], // Changement de `username` à `email`
+    email: ['', [Validators.required]],
     password: ['', [Validators.required]],
-    rememberMe: [false]
+    rememberMe: [false],
   });
 
-  get email() {
-    return this.loginForm.get('email');
-  }
-
-  get password() {
-    return this.loginForm.get('password');
-  }
-
-  get rememberMe() {
-    return this.loginForm.get('rememberMe');
-  }
-
-  isSubmitting = false;
-
-  login() {
-    this.isSubmitting = true;
-  
-    const email = this.email?.value?.trim() ?? ''; // Supprimer les espaces superflus
-    const password = this.password?.value?.trim() ?? '';
-  
+  onSubmit() {
     if (this.loginForm.valid) {
-      this.authService.login(email, password).subscribe({
-        next: (response) => {
-          console.log('Login successful', response);
-          this.router.navigateByUrl('/forms/home');
-        },
-        error: (error) => {
-          console.error('Login failed', error);
-          this.isSubmitting = false;
-        }
-      });
-    } else {
-      console.error('Email and password are required');
-      this.isSubmitting = false;
+      // Vous pouvez ajouter ici des actions supplémentaires si nécessaire
+
+      // Redirection immédiate vers la page d'accueil après soumission réussie
+      this.router.navigate(['/forms/home']);
     }
   }
-  
+
+
+
+  goToHome(): void {
+    this.router.navigate(['/forms/home']); // Rediriger vers la page d'accueil
+  }
 }
+
+
+
