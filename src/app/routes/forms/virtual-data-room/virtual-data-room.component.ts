@@ -23,6 +23,7 @@ import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { FormatFileNamePipe } from '../format-file-name.pipe' ; 
+import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 export enum defaultGuestPermission {
   NoAccess = 'No Access',
   OnlyView = 'Only View',
@@ -45,7 +46,9 @@ export enum defaultGuestPermission {
     MatFormFieldModule, 
     AddSectionDialogComponent,
     MatInputModule,
-    FormatFileNamePipe
+    FormatFileNamePipe,
+    MatDialogModule,
+    AlertDialogComponent
   
   ],
   providers:[NzDrawerService ,FormatFileNamePipe],
@@ -246,7 +249,7 @@ private nzDrawerService = inject (NzDrawerService);
   
     
       const preset = 'ml_default';
-      const userId = '18';
+      const userId = '36';
       const panelId = panel.id;
   
   
@@ -343,7 +346,8 @@ private nzDrawerService = inject (NzDrawerService);
 
   addNewSection(): void {
     if (!this.canEdit()) {
-      alert('Denied permission...');
+      this.openDialog('This action is designated for guests with full access permissions.');
+    
       return;
     }
 
@@ -359,6 +363,19 @@ private nzDrawerService = inject (NzDrawerService);
         
         this.cd.detectChanges();
       }
+    });
+  }
+
+
+
+  openDialog(message: string): void {
+    const dialogRef = this.dialog.open(AlertDialogComponent, {
+      width: '250px',
+      data: { message: message } // Pass the message to the dialog
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
   
@@ -387,7 +404,7 @@ isDialogOpen = false;
  
   saveChanges(): void {
     if (!this.canEdit()) {
-      alert('Denied permission...');
+      this.openDialog('This action is designated for guests with full access permissions.');
       return;
     }
 
@@ -406,12 +423,6 @@ isDialogOpen = false;
   
 
   goToDraft(): void {
-    const draft = {
-      id: this.virtualRoomId,
-      title: this.virtualDataRoomTitle
-    };
-
-    // Enregistrez le draft et effectuez la navigation
     this.router.navigate(['/forms/draft'], {
       queryParams: { id: this.virtualRoomId, title: this.virtualDataRoomTitle }
   })

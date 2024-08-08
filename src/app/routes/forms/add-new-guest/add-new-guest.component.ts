@@ -87,7 +87,7 @@ export class AddNewGuestComponent implements OnInit {
       this.invitationService.createInvitation(invitationData).subscribe(
         response => {
           console.log('Invitation created:', response);
-          this.openDialog('Invitation created successfully! Can you verify your email?'); // Pass success message
+          this.openDialog('Invitation created successfully! '); // Pass success message
         },
         error => {
           console.error('Error creating invitation:', error);

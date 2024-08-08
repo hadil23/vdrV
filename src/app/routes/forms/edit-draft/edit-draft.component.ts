@@ -152,7 +152,7 @@ export class EditDraftComponent implements OnInit {
     }
 
     const preset = 'ml_default';
-    const userId = '17';
+    const userId = '36';
 
     if (event.fileList) {
       for (const file of event.fileList) {
@@ -204,12 +204,12 @@ export class EditDraftComponent implements OnInit {
   updateVirtualDataRoomTitle(): void {
     if (this.virtualRoomId) {
       const updateData: any = {};
-  
+
       if (this.newTitle) updateData.name = this.newTitle;
       if (this.expiryDateTime) updateData.expiryDateTime = this.expiryDateTime;
       if (this.access) updateData.access = this.access;
       if (this.defaultGuestPermission) updateData.defaultGuestPermission = this.defaultGuestPermission;
-  
+
       this.virtualRoomService.updateVirtualDataRoom(this.virtualRoomId, updateData)
         .subscribe({
           next: (response) => {
@@ -226,14 +226,14 @@ export class EditDraftComponent implements OnInit {
       console.error('No VDR ID available for update');
     }
   }
-  
-  
+
+
 
   savePanelTitle(panel: any): void {
     this.editingPanelTitle[panel.id] = false;
     this.updatePanelTitle(panel.id, panel.title);
   }
-  
+
   updatePanelTitle(panelId: number, newTitle: string): void {
     const panel = this.panels.find(p => p.id === panelId);
     if (panel) {
@@ -253,5 +253,5 @@ export class EditDraftComponent implements OnInit {
       console.error('Panel not found for update');
     }
   }
-  
+
 }

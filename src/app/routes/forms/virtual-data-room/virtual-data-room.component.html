@@ -13,7 +13,9 @@
   <h4>{{ virtualDataRoomTitle }}</h4>
 <span (click)="incrementViews()">
   <i nz-icon nzType="eye" nzTheme="outline"></i>
-  <span class="view-count">{{ viewCount }}</span>
+  <span class="view-count" [ngStyle]="{ color: 'blue' }">{{ viewCount }}</span>
+
+
 </span>
 </div>
 
@@ -70,5 +72,8 @@
       <i class="fas fa-share"></i>
     </button>
    
+    <button class="btn btn-primary" (click)="goToDraft()">
+      <i class="fas fa-save"></i>
+    </button>
   </div>
 </div>

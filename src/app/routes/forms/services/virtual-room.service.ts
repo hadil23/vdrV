@@ -132,10 +132,12 @@ addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any
     return this.http.put(url, {});
   }
   
+
   updateVirtualDataRoom(id: number, updates: any): Observable<any> {
     const url = `${this.backendUrl}/api/virtualDataRooms/virtualDataRooms/${id}`;
     return this.http.put<any>(url, updates);
   }
+ 
   updatePanel(panelId: number, updates: any): Observable<any> {
     const url = `${this.backendUrl}/api/panel/${panelId}`;
     return this.http.put<any>(url, updates );
