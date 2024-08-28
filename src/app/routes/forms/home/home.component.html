@@ -1,33 +1,33 @@
 <div class="card-container">
-  <button class="button" (click)="goToCreateVirtualRoom()">+ Nouveau Contrat</button>
-  <ng-container *ngFor="let room of virtualDataRooms; let i = index">
-    <mat-card class="data-room-card">
-      <div class="card-content">
-        <mat-checkbox class="select-checkbox"></mat-checkbox>
-        <div class="room-info">
-          <div class="room-name" (click)="navigateToVirtualDataRoom(room.id)" style="cursor: pointer;">
-            {{ room.name }}
+  <button class="new-contract-button" (click)="goToCreateVirtualRoom()">+ Nouveau Contrat</button>
+  <div class="cards-wrapper">
+    <ng-container *ngFor="let room of virtualDataRooms; let i = index">
+      <mat-card class="data-room-card">
+        <div class="card-content">
+          <div class="room-icon">
+            <mat-icon>folder</mat-icon>
+          </div>
+          <div class="room-info">
+            <div class="room-name" (click)="navigateToVirtualDataRoom(room.id)">
+              {{ room.name }}
+            </div>
+            <div class="created-date">Créé le {{ room.createdAt | date:'MMM d, yyyy' }}</div>
+          </div>
+          <div class="card-actions">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="navigateToVirtualDataRoom(room.id)">
+                <mat-icon>visibility</mat-icon> Voir
+              </button>
+              <button mat-menu-item (click)="deleteVirtualDataRoom(room.id)">
+                <mat-icon>delete</mat-icon> Supprimer
+              </button>
+            </mat-menu>
           </div>
         </div>
-        <div class="room-meta">
-          <div class="created-date">Créé le {{ room.createdAt | date }}</div>
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon class="more-icon">more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>
-              <span (click)="navigateToVirtualDataRoom(room.id)"><i class="fas fa-eye"></i> Voir</span>
-            </button>
-            <button mat-menu-item class="delete-menu-item" (click)="deleteVirtualDataRoom(room.id)">
-              <mat-icon>delete</mat-icon>
-              Supprimer
-            </button>
-          </mat-menu>
-        </div>
-      </div>
-      <mat-card-actions>
-        <!-- Actions like buttons or menu items can be added here -->
-      </mat-card-actions>
-    </mat-card>
-  </ng-container>
+      </mat-card>
+    </ng-container>
+  </div>
 </div>
