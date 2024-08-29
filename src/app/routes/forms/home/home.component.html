@@ -1,5 +1,7 @@
+<button class="new-contract-button" (click)="goToCreateVirtualRoom()">+ Nouveau Contrat</button>
+
 <div class="card-container">
-  <button class="new-contract-button" (click)="goToCreateVirtualRoom()">+ Nouveau Contrat</button>
+
   <div class="cards-wrapper">
     <ng-container *ngFor="let room of virtualDataRooms; let i = index">
       <mat-card class="data-room-card">
@@ -31,3 +33,8 @@
     </ng-container>
   </div>
 </div>
+<footer class="footer">
+  <div class="chatbot-icon" (click)=" openAddChatbotDialog()">
+    <mat-icon>chat</mat-icon>
+  </div>
+</footer>

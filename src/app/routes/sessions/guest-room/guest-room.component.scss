@@ -1,0 +1,90 @@
+.container {
+    width: 250%; /* Ajustez la largeur en fonction de vos besoins */
+   
+    padding: 15px;
+    background-color: white;
+    border-radius: 10px;
+   margin-left: -100%;
+  }
+  
+  .header h4 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center; /* Centre le texte dans l'en-tête */
+  }
+  
+  .top-buttons {
+    display: flex;
+   
+    margin-bottom: 90px;
+    margin-top: 40px; /* Ajustez si nécessaire */
+  }
+  
+  .top-buttons .btn {
+    margin-left: 10px;
+    background-color: #007bff;
+    color: #ffffff;
+    border-radius: 5px;
+    padding: 15px 30px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .top-buttons .btn-secondary {
+    background-color: #007bff;
+  }
+  
+  .top-buttons .btn-secondary:hover {
+    background-color: #0056b3;
+  }
+  
+  mat-accordion {
+    width: 100%;
+    margin-top: 20px; /* Ajoutez de l'espace au-dessus si nécessaire */
+  }
+  
+  mat-expansion-panel {
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  mat-expansion-panel-header {
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+  }
+  
+  mat-expansion-panel-header mat-panel-title {
+    font-weight: bold;
+  }
+  
+  mat-expansion-panel-header mat-panel-description {
+    color: #888;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  ul li {
+    padding: 5px 0;
+  }
+  
+  ul li a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  ul li a:hover {
+    text-decoration: underline;
+  }
+  
+
+  
+ 
+ 
+  

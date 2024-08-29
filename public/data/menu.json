@@ -4,11 +4,8 @@
       "route": "forms/home",
       "name": "Home",
       "type": "link",
-      "icon": "home",
-      "badge": {
-        "color": "red-50",
-        "value": "5"
-      }
+      "icon": "home"
+      
     },
     
  
@@ -34,7 +31,7 @@
       "icon": "settings"
     },
     {
-      "route": "/forms/Comment",
+      "route": "/forms/draft",
       "name": "draft",
       "type": "link",
       "icon": "drafts"

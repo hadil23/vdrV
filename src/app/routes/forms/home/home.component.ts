@@ -12,11 +12,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import Swal from 'sweetalert2';
 import { DrawerService } from '../services/drawerService';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
 
 interface VirtualDataRoom {
   id: number;
   name: string;
   createdAt: string;
+
 }
 
 @Component({
@@ -24,6 +27,7 @@ interface VirtualDataRoom {
   standalone: true,
   imports: [
     CommonModule,
+    ChatbotComponent,
     RouterModule,
     MatCardModule,
     MatButtonModule,
@@ -32,7 +36,9 @@ interface VirtualDataRoom {
     NzDrawerModule,
     MatCheckboxModule,
     MatMenuModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    AlertDialogComponent
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
@@ -41,12 +47,15 @@ interface VirtualDataRoom {
 export class HomeComponent implements OnInit {
   virtualDataRooms: VirtualDataRoom[] = [];
   isChatbotVisible: boolean = false;
+  isDialogOpen: boolean | undefined;
+
 
   constructor(
     private virtualRoomService: VirtualRoomService,
     private drawerService: DrawerService,
     private nzDrawerService: NzDrawerService,
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog 
   ) {}
 
   ngOnInit() {
@@ -118,4 +127,30 @@ export class HomeComponent implements OnInit {
       }
     });
   }
+  goTochatbot() : void {
+    this.router.navigate(['/forms/chat-bot']);
+  }
+
+
+
+ 
+  openAddChatbotDialog(): void {
+    this.isDialogOpen = true;
+    const dialogRef = this.dialog.open(ChatbotComponent, {
+      width: '800px',
+      height:'600px',
+      panelClass: 'small-dialog',
+
+      
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+      this.isDialogOpen = false;
+    });
+    dialogRef.componentInstance.onInviteClick.subscribe(() => {
+      dialogRef.close();
+    });
+  }
+ 
 }

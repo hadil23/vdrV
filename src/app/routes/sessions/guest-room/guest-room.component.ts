@@ -6,24 +6,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { NzDemoUploadBasicComponent } from '../nz-demo-upload-basic/nz-demo-upload-basic.component';
-import { DraftService } from '../services/draft.service';
-import { VirtualRoomService } from '../services/virtual-room.service';
-import { CloudinaryService } from '../services/CloudinaryService';
-import { AddSectionDialogComponent } from '../add-section-dialog/add-section-dialog.component'; // Assurez-vous que ce chemin est correct
-import { Panel } from '../models/panel';
+import { NzDemoUploadBasicComponent } from '../../forms/nz-demo-upload-basic/nz-demo-upload-basic.component';
+import { DraftService } from '../../forms/services/draft.service';
+import { VirtualRoomService } from '../../forms/services/virtual-room.service';
+import { CloudinaryService } from '../../forms/services/CloudinaryService';
+import { AddSectionDialogComponent } from '../../forms/add-section-dialog/add-section-dialog.component'; // Assurez-vous que ce chemin est correct
+import { Panel } from '../../forms/models/panel';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common'; 
-import { AddNewGuestComponent } from '../add-new-guest/add-new-guest.component';
+
 
 import { NzDrawerModule } from 'ng-zorro-antd/drawer';
 import { NzDrawerService } from 'ng-zorro-antd/drawer';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
-import { FormatFileNamePipe } from '../format-file-name.pipe' ; 
-import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
+import { FormatFileNamePipe } from '../../forms/format-file-name.pipe' ; 
+import { AlertDialogComponent } from '../../forms/alert-dialog/alert-dialog.component';
 export enum defaultGuestPermission {
   NoAccess = 'No Access',
   OnlyView = 'Only View',
@@ -52,12 +52,12 @@ export enum defaultGuestPermission {
   
   ],
   providers:[NzDrawerService ,FormatFileNamePipe],
-  templateUrl: './virtual-data-room.component.html',
-  styleUrls: ['./virtual-data-room.component.scss'],
+  templateUrl: './guest-room.component.html',
+  styleUrls: ['./guest-room.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
  
 })
-export class VirtualDataRoomComponent implements OnInit {
+export class GuestRoomComponent implements OnInit {
   panelOpenState = signal(false);
   @ViewChild('addPanelDialog') addPanelDialog: any;
   newPanelTitle: string = '';
@@ -379,25 +379,7 @@ private nzDrawerService = inject (NzDrawerService);
     });
   }
   
-isDialogOpen = false;
 
-
-
-  openAddGuestDialog(): void {
-    this.isDialogOpen = true;
-    const dialogRef = this.dialog.open(AddNewGuestComponent, {
-      width: '300px',
-      panelClass: 'small-dialog',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.isDialogOpen = false;
-    });
-    dialogRef.componentInstance.onInviteClick.subscribe(() => {
-      dialogRef.close();
-    });
-  }
  
  
  
@@ -412,22 +394,10 @@ isDialogOpen = false;
   }
 
 
-  goToAddNewGuest(access: string): void {
-    this.router.navigate(['/forms/add-new-guest'], { queryParams: { 
-      virtualRoomId :this.virtualRoomId,
-      access: access, 
-      permissionParam : this.defaultGuestPermission ,
-      title :  this.virtualDataRoomTitle 
-    } });
-  }
+ 
   
 
-  goToDraft(): void {
-    this.router.navigate(['/forms/draft'], {
-      queryParams: { id: this.virtualRoomId, title: this.virtualDataRoomTitle }
-  })
-
-  }
+ 
   
 }
 
