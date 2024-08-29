@@ -13,6 +13,7 @@ import { NzDrawerComponent } from 'ng-zorro-antd/drawer';
 export class ChatbotComponent {
   userMessage: string = '';
   botReply: string = '';
+  onInviteClick: any;
 
   constructor(private chatService: ChatService) {}
 

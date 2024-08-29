@@ -7,6 +7,9 @@
 }
 
 .new-contract-button {
+  margin-bottom:20% ;
+  margin-top: 4%;
+  margin-left: 87%;
   background-color: #2979ff;
   color: white;
   border: none;
@@ -67,4 +70,45 @@
 .card-actions {
   display: flex;
   align-items: center;
+}
+
+
+
+.footer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.chatbot-icon {
+  width: 60px;
+  height: 60px;
+  background-color: #0078FF; /* Messenger blue color */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: -135%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.chatbot-icon mat-icon {
+  color: white;
+  font-size: 36px;
+}
+
+.chatbot-icon:hover {
+  background-color: #005BB5; /* Darker blue on hover */
+}
+
+
+.small-dialog .mat-dialog-container {
+  position: fixed !important; 
+  top: 0 !important;
+  margin-left: 100% !important;
+  width: 900px !important;
+  height: 700px !important;
 }

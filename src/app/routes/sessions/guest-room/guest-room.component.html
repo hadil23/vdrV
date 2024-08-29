@@ -1,0 +1,64 @@
+<div class="top-buttons">
+    <button class="btn btn-secondary" (click)="addNewSection()">
+      <i class="fas fa-plus-circle"></i> Add New Section
+    </button>
+    <button class="btn btn-secondary" (click)="downloadAllFiles()">
+      <i class="fas fa-download"></i>
+    </button>
+    <button class="btn btn-secondary" (click)="goToLink(EtafaknaUrl)">
+      Generate Documents
+    </button>
+  </div>
+  <div class = "header">
+    <h4>{{ virtualDataRoomTitle }}</h4>
+  </div>
+  
+  
+  <div class="container">
+  
+    <mat-accordion>
+      <!-- Afficher les panneaux statiques -->
+      <ng-container *ngFor="let panel of panells()">
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ panel.title }}
+            </mat-panel-title>
+            <mat-panel-description>
+              <!-- Ajoutez ici une description si nécessaire -->
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+  
+          <div *ngIf="panel">
+            <app-nz-demo-upload-basic (nzChange)="addFileToPanel(panel, $event)"></app-nz-demo-upload-basic>
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
+  
+      <!-- Afficher les panneaux dynamiques -->
+      <ng-container *ngFor="let panel of panelList">
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ panel.title}}
+            </mat-panel-title>
+            <mat-panel-description>
+              <!-- Ajoutez ici une description si nécessaire -->
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+  
+          <div *ngIf="panel">
+            <app-nz-demo-upload-basic (nzChange)="addFileToPanel(panel, $event)"></app-nz-demo-upload-basic>
+            <ul>
+              <li *ngFor="let file of panel.files">
+                <a [href]="file.url" target="_blank">  ({{ file.url | formatFileName}})</a>
+              </li>
+            </ul>
+          </div>
+        </mat-expansion-panel>
+      </ng-container>
+    </mat-accordion>
+  
+
+  </div>
+  

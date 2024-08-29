@@ -95,7 +95,7 @@ export class VerifyEmailComponent implements OnInit {
   }
 
   navigateToVirtualDataRoom(virtualDataRoomId: string) {
-    this.router.navigate(['/forms/virtual-data-room'], { queryParams: { id: virtualDataRoomId, title: this.virtualDataRoomTitle } });
+    this.router.navigate(['/auth/guest-room'], { queryParams: { id: virtualDataRoomId, title: this.virtualDataRoomTitle } });
   }
 
   showToast(message: string): void {
