@@ -1,0 +1,56 @@
+
+.row {
+  display: flex;
+  justify-content: center; /* Centre le contenu horizontalement */
+  align-items: baseline; /* Centre le contenu verticalement (si besoin) */
+  height: 100vh; /* Hauteur du conteneur pour centrer verticalement */
+}
+
+.col-sm-12 {
+  max-width: 800px; /* Augmentez la largeur maximale du formulaire */
+  width: 100%; /* Assurez-vous que le formulaire prend toute la largeur possible */
+  padding: 2rem; /* Ajoutez un padding supplémentaire autour du formulaire */
+}
+
+.mat-card {
+  padding: 3rem; /* Augmentez le padding à l'intérieur de la carte pour plus d'espace */
+  border-radius: 8px; /* Arrondir les coins de la carte */
+  background-color: #f9f9f9; /* Couleur de fond pour la carte */
+}
+
+.m-t-8 {
+  margin-top: 2.5rem; /* Ajustez la marge au-dessus du bouton si nécessaire */
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.m-x-8 {
+  margin-left: 0.75rem; /* Ajustez la marge à gauche du bouton */
+  margin-right: 0.75rem; /* Ajustez la marge à droite du bouton */
+}
+
+/* Style des champs de saisie */
+.mat-form-field {
+  width: 100%; /* Assurez-vous que les champs de saisie prennent toute la largeur possible */
+}
+
+/* Suppression de la ligne en dessous des inputs */
+.mat-form-field-underline {
+  display: none; /* Cache la ligne sous les champs de saisie */
+}
+
+.mat-input-element {
+  background-color: #ffffff !important; /* Couleur de fond blanc pour les champs de saisie */
+  border-radius: 4px; /* Arrondir légèrement les coins des champs de saisie */
+  padding: 12px; /* Augmentez le padding pour une hauteur accrue */
+  font-size: 1.1rem; /* Augmentez la taille de la police pour une meilleure lisibilité */
+  line-height: 1.5; /* Augmentez la hauteur de ligne pour plus de confort */
+  border: none; /* Supprimer les bordures */
+  box-shadow: none; /* Supprimer les ombres */
+}

@@ -15,6 +15,11 @@
     background-color: var(--user-panel-hover-background-color);
   }
 }
+.footerSidebar{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
 
 // Set default width and height can avoid flashing before avatar image loaded.
 .matero-user-panel-avatar {

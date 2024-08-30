@@ -1,13 +1,11 @@
-
-{"menu": {
-  "Home": "Home", 
-   "Data-Room": "Data-Room",
-"Virtual Data Room": "Virtual Data Room",
-   "manage":"Manage",
-    
-    
-    
-    "draft": "Draft"
+{
+  "menu": {
+    "Home": "Home",
+    "Data-Room": "Data-Room",
+    "Virtual Data Room": "Virtual Data Room",
+    "Manage": "Manage",
+    "Draft": "Draft",
+    "": ""
   },
   "validations": {
     "required": "This field is required",
@@ -68,8 +66,5 @@
   "have_an_account": "Already have an account",
   "restore_defaults": "Restore defaults"
 }
-
-
-
 
 

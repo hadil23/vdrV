@@ -4,8 +4,11 @@
       "route": "forms/home",
       "name": "Home",
       "type": "link",
-      "icon": "home"
-      
+      "icon": "home",
+      "badge": {
+        "color": "red-50",
+        "value": "5"
+      }
     },
     
  
@@ -15,27 +18,19 @@
      "name": "Data-Room",
           "type": "link"
         },
-    {
-      "route": "forms/virtual-data-room",
-      "icon": "appstore",
-     "name": "Virtual Data Room",
-          "type": "link"
-          }, 
+   
     
-
-    
-    {
-      "route": "/forms/manage-data-room",
-      "name": "Manage ",
-      "type": "link",
-      "icon": "settings"
-    },
+          {
+            "route": "/forms/manage-data-room",
+            "name": "Manage",
+            "type": "link",
+            "icon": "settings"
+          },
     {
       "route": "/forms/draft",
-      "name": "draft",
+      "name": "Draft",
       "type": "link",
       "icon": "drafts"
     }
   ]
 }
-

@@ -30,8 +30,8 @@ export class TranslateComponent {
 
   langs = {
     'en-US': 'English',
-    'zh-CN': '中文简体',
-    'zh-TW': '中文繁体',
+    'zh-CN': 'Français',
+    
   };
 
   constructor() {

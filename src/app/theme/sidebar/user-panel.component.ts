@@ -9,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-user-panel',
   template: `
-    <div class="matero-user-panel" routerLink="/profile/overview">
+    <div class="matero-user-panel footerSidebar" routerLink="/profile/overview">
       <img class="matero-user-panel-avatar" [src]="user.avatar" alt="avatar" width="64" />
       <div class="matero-user-panel-info">
         <h4>{{ user.name }}</h4>
