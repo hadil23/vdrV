@@ -137,9 +137,7 @@ export class HomeComponent implements OnInit {
   openAddChatbotDialog(): void {
     this.isDialogOpen = true;
     const dialogRef = this.dialog.open(ChatbotComponent, {
-      width: '800px',
-      height:'600px',
-      panelClass: 'small-dialog',
+    
 
       
     });
