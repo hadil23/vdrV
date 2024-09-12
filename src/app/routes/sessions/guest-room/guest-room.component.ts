@@ -25,6 +25,7 @@ import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { FormatFileNamePipe } from '../../forms/format-file-name.pipe' ; 
 import { AlertDialogComponent } from '../../forms/alert-dialog/alert-dialog.component';
 import { AddNewGuestComponent } from 'app/routes/forms/add-new-guest/add-new-guest.component';
+import Swal from 'sweetalert2';
 export enum defaultGuestPermission {
   NoAccess = 'No Access',
   OnlyView = 'Only View',
@@ -426,6 +427,49 @@ private nzDrawerService = inject (NzDrawerService);
       queryParams: { id: this.virtualRoomId, title: this.virtualDataRoomTitle }
   })
 
+  }
+  deletePanel(panel: Panel): void {
+    const panelId = Number(panel.id); // Convertir l'ID en number
+    if (isNaN(panelId)) {
+      console.error('Invalid panel ID:', panel.id);
+      return;
+    }
+  
+    // Utilisation de SweetAlert pour la confirmation de suppression
+    Swal.fire({
+      title: `Are you sure you want to delete the panel "${panel.title}"?`,
+      text: "This action cannot be undone.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1C6AE4', // Couleur spécifique pour le bouton de confirmation
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      background: '#f8f9fa',
+      color: '#343a40'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Supprimer le panneau si la suppression est confirmée
+        this.virtualRoomService.deletePanel(panelId).subscribe(
+          () => {
+            // Mettre à jour la liste des panneaux après suppression
+            this.panels.update(panels => panels.filter(p => p.id !== panel.id));
+            console.log(`Panel "${panel.title}" deleted successfully`);
+            
+            // Notification de succès après la suppression
+            Swal.fire({
+              title: 'Deleted!',
+              text: `The panel "${panel.title}" has been deleted.`,
+              icon: 'success',
+              confirmButtonColor: '#1C6AE4'
+            });
+          },
+          error => {
+            console.error('Error deleting panel:', error);
+          }
+        );
+      }
+    });
   }
   
 }

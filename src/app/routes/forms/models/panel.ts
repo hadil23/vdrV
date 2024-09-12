@@ -3,7 +3,7 @@ export interface Panel {
     title: string;
     files: File[]; 
     expanded: false;
-    hover: false ;
+    hover: boolean;
   }
   
   export interface File {

@@ -321,15 +321,41 @@ private nzDrawerService = inject (NzDrawerService);
       return;
     }
   
-    if (confirm(`Are you sure you want to delete the panel "${panel.title}"? This action cannot be undone.`)) {
-      this.virtualRoomService.deletePanel(panelId).subscribe(() => {
-        // Mettez à jour la liste des panneaux après suppression
-        this.panels.update(panels => panels.filter(p => p.id !== panel.id));
-        console.log(`Panel "${panel.title}" deleted successfully`);
-      }, error => {
-        console.error('Error deleting panel:', error);
-      });
-    }
+    // Utilisation de SweetAlert pour la confirmation de suppression
+    Swal.fire({
+      title: `Are you sure you want to delete the panel "${panel.title}"?`,
+      text: "This action cannot be undone.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#1C6AE4', // Couleur spécifique pour le bouton de confirmation
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+      background: '#f8f9fa',
+      color: '#343a40'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Supprimer le panneau si la suppression est confirmée
+        this.virtualRoomService.deletePanel(panelId).subscribe(
+          () => {
+            // Mettre à jour la liste des panneaux après suppression
+            this.panels.update(panels => panels.filter(p => p.id !== panel.id));
+            console.log(`Panel "${panel.title}" deleted successfully`);
+            
+            // Notification de succès après la suppression
+            Swal.fire({
+              title: 'Deleted!',
+              text: `The panel "${panel.title}" has been deleted.`,
+              icon: 'success',
+              confirmButtonColor: '#1C6AE4'
+            });
+          },
+          error => {
+            console.error('Error deleting panel:', error);
+          }
+        );
+      }
+    });
   }
   
   

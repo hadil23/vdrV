@@ -33,5 +33,5 @@ import { MatMenuModule } from '@angular/material/menu';
   imports: [MatBadgeModule, MatButtonModule, MatIconModule, MatListModule, MatMenuModule],
 })
 export class NotificationComponent {
-  messages = ['Server Error Reports 1', 'Server Error Reports 2', 'Server Error Reports 3'];
+  messages = ['File Upload Completed', 'Panel Created', 'Files Uploaded'];
 }
