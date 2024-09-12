@@ -28,7 +28,8 @@
             {{ panel.title }}
           </mat-panel-title>
           <mat-panel-description>
-            <!-- Ajoutez ici une description si nécessaire -->
+            <i class="fas fa-trash-alt delete-icon" *ngIf="panel.hover" (click)="deletePanel(panel)" 
+             style="color: red; cursor: pointer;"></i>
           </mat-panel-description>
         </mat-expansion-panel-header>
 
@@ -46,7 +47,8 @@
             {{ panel.title}}
           </mat-panel-title>
           <mat-panel-description>
-            <!-- Ajoutez ici une description si nécessaire -->
+            <i class="fas fa-trash-alt delete-icon" *ngIf="panel.hover" (click)="deletePanel(panel)" 
+             style="color: red; cursor: pointer;"></i>
           </mat-panel-description>
         </mat-expansion-panel-header>
 

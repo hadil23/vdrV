@@ -235,20 +235,22 @@ export class EditDraftComponent implements OnInit {
 
  
 
-  updatePanelTitle(panelId: number, newTitle: string): void {
+  updatePanelTitle(panelId: number, title: any): void {
     const panel = this.panels.find(p => p.id === panelId);
+    
     if (panel) {
-      const updatedPanel = { ...panel, title: newTitle };
+      const updateData: any = {};
       
-      console.log('Updating panel with data:', updatedPanel); 
+      // Assure-toi que le titre a été modifié
+      if (panel.title) updateData.title = panel.title;
   
-      this.virtualRoomService.updatePanel(panelId, updatedPanel)
+      console.log('Updating panel with data:', updateData);
+  
+      this.virtualRoomService.updatePanel(panelId, updateData)
         .subscribe({
           next: (response) => {
             console.log('Panel title updated successfully:', response);
-            // Met à jour le titre du panneau localement
-            panel.title = newTitle;
-            console.log('Panel after update:', panel); // Vérifiez l'état du panneau après la mise à jour
+            // Met à jour le titre du panneau localement après succès de la requête
             this.snackBar.open('Panel title updated successfully', 'Close', { duration: 3000 });
           },
           error: (error) => {
@@ -258,8 +260,10 @@ export class EditDraftComponent implements OnInit {
         });
     } else {
       console.error('Panel not found for update');
+      this.snackBar.open('Panel not found', 'Close', { duration: 3000 });
     }
   }
+  
   
   savePanelTitle(panel: any): void {
     this.editingPanelTitle[panel.id] = false;

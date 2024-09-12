@@ -94,10 +94,10 @@ private nzDrawerService = inject (NzDrawerService);
 
   panels: WritableSignal<Panel[]> = signal<Panel[]>([]);
   panells = signal<Panel[]>([
-    { id: '1', title: 'Legal Documents', files: [], expanded: false },
-    { id: '2', title: 'Financial Documents', files: [], expanded: false },
-    { id: '3', title: 'Products', files: [], expanded: false },
-    { id: '4', title: 'Intellectual Property', files: [], expanded: false }
+    { id: '1', title: 'Legal Documents', files: [], expanded: false ,hover: false  },
+    { id: '2', title: 'Financial Documents', files: [], expanded: false ,hover: false },
+    { id: '3', title: 'Products', files: [], expanded: false,hover: false  },
+    { id: '4', title: 'Intellectual Property', files: [], expanded: false ,hover: false  }
   ]);
   isDialogOpen: boolean | undefined;
 
@@ -361,7 +361,7 @@ private nzDrawerService = inject (NzDrawerService);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.newPanelTitle = result;
-        this.panels.update(panels => [...panels, { id: Date.now().toString(), title: result, files: [] ,expanded: false}]);
+        this.panels.update(panels => [...panels, { id: Date.now().toString(), title: result, files: [] ,expanded: false ,hover: false }]);
         
         this.cd.detectChanges();
       }

@@ -94,10 +94,10 @@ private nzDrawerService = inject (NzDrawerService);
 
   panels: WritableSignal<Panel[]> = signal<Panel[]>([]);
   panells = signal<Panel[]>([
-    { id: '1', title: 'Legal Documents', files: [], expanded: false },
-    { id: '2', title: 'Financial Documents', files: [], expanded: false },
-    { id: '3', title: 'Products', files: [], expanded: false },
-    { id: '4', title: 'Intellectual Property', files: [], expanded: false }
+    { id: '1', title: 'Legal Documents', files: [], expanded: false , hover: false  },
+    { id: '2', title: 'Financial Documents', files: [], expanded: false ,hover: false  },
+    { id: '3', title: 'Products', files: [], expanded: false,hover: false  },
+    { id: '4', title: 'Intellectual Property', files: [], expanded: false,hover: false  }
   ]);
 
   get panelList(): Panel[] {
@@ -314,7 +314,25 @@ private nzDrawerService = inject (NzDrawerService);
   }
 
 
-
+  deletePanel(panel: Panel): void {
+    const panelId = Number(panel.id); // Convertir l'ID en number
+    if (isNaN(panelId)) {
+      console.error('Invalid panel ID:', panel.id);
+      return;
+    }
+  
+    if (confirm(`Are you sure you want to delete the panel "${panel.title}"? This action cannot be undone.`)) {
+      this.virtualRoomService.deletePanel(panelId).subscribe(() => {
+        // Mettez à jour la liste des panneaux après suppression
+        this.panels.update(panels => panels.filter(p => p.id !== panel.id));
+        console.log(`Panel "${panel.title}" deleted successfully`);
+      }, error => {
+        console.error('Error deleting panel:', error);
+      });
+    }
+  }
+  
+  
 
   canDownloadFiles(): boolean {
     console.log('Checking download permission:', this.defaultGuestPermission);
@@ -371,7 +389,7 @@ private nzDrawerService = inject (NzDrawerService);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.newPanelTitle = result;
-        this.panels.update(panels => [...panels, { id: Date.now().toString(), title: result, files: [] ,expanded: false}]);
+        this.panels.update(panels => [...panels, { id: Date.now().toString(), title: result, files: [] ,expanded: false ,hover: false }]);
         
         this.cd.detectChanges();
       }
