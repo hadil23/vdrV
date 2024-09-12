@@ -1,90 +1,120 @@
-.container {
-    width: 250%; /* Ajustez la largeur en fonction de vos besoins */
-   
-    padding: 15px;
-    background-color: white;
-    border-radius: 10px;
-   margin-left: -100%;
-  }
-  
-  .header h4 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center; /* Centre le texte dans l'en-tête */
-  }
-  
-  .top-buttons {
-    display: flex;
-   
-    margin-bottom: 90px;
-    margin-top: 40px; /* Ajustez si nécessaire */
-  }
-  
-  .top-buttons .btn {
-    margin-left: 10px;
-    background-color: #007bff;
-    color: #ffffff;
-    border-radius: 5px;
-    padding: 15px 30px;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .top-buttons .btn-secondary {
-    background-color: #007bff;
-  }
-  
-  .top-buttons .btn-secondary:hover {
-    background-color: #0056b3;
-  }
-  
-  mat-accordion {
-    width: 100%;
-    margin-top: 20px; /* Ajoutez de l'espace au-dessus si nécessaire */
-  }
-  
-  mat-expansion-panel {
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  mat-expansion-panel-header {
-    background-color: white;
-    border-bottom: 1px solid #ddd;
-    width: 100%;
-    padding: 15px;
-    font-size: 18px;
-  }
-  
-  mat-expansion-panel-header mat-panel-title {
-    font-weight: bold;
-  }
-  
-  mat-expansion-panel-header mat-panel-description {
-    color: #888;
-  }
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  ul li {
-    padding: 5px 0;
-  }
-  
-  ul li a {
-    color: #007bff;
-    text-decoration: none;
-  }
-  
-  ul li a:hover {
-    text-decoration: underline;
-  }
-  
+.sidebar {
+  margin: 2px 0;
+  width: 250px;
+  background-color: white;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
 
-  
- 
- 
-  
+.logo-container {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-bottom: 40%;
+}
+
+.app-logo {
+  max-width: 80px;
+  height: auto;
+}
+
+.header-title {
+  margin-left: 0;
+  text-align: center;
+}
+
+.container {
+  margin-top: 25%;
+  margin-left: -550px; /* ajusté pour l'espace laissé par la sidebar */
+  padding: 0 2%;
+  flex-grow: 1;
+}
+
+.folder-icon {
+  width: 20px; 
+  height: auto;
+  margin-right: 10px;
+}
+
+.panel-title-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; 
+}
+
+.top-buttons {
+  margin-top: 39%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.bottom-buttons {
+ margin-top: 10%;
+  margin-left: 70%;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn {
+  margin-top: 30%;
+  border-radius: 10px;
+  padding: 10px 15px;
+  font-size: 14px;
+  background-color: #007bff;
+  border-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
+
+mat-accordion mat-expansion-panel {
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 17px;
+  border: 1px solid #007bff;
+}
+
+mat-expansion-panel-header {
+  font-weight: bold;
+}
+
+mat-panel-title, mat-panel-description {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.folder-accordion .mat-expansion-panel-header {
+  background-color: white;
+  padding: 10px;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .container {
+    margin-left: 200px;
+    padding: 0 5%;
+  }
+.panel-title-item{
+  margin-bottom: 40%;
+}
+  .panel-title-item span {
+    font-size: 14px;
+  }
+}

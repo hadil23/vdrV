@@ -1,0 +1,27 @@
+.btn-cancel, .btn-add {
+    margin-right: 10px;
+  }
+  .btn-cancel {
+    background-color: transparent;
+    color: white;
+    background-color: #1C6AE4;
+    border-radius: 4px;
+    padding: 8px 16px;
+    transition: background-color 0.3s ease;
+  }
+  .btn-cancel:hover {
+    background-color: #E5E5E5;
+  }
+  
+  .btn-add {
+    background-color: #1C6AE4;
+    color: #FFFFFF;
+    border-radius: 4px;
+    padding: 8px 16px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease;
+  }
+  .btn-add:hover {
+    background-color: #155BB5;
+  }
+    

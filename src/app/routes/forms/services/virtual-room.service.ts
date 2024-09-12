@@ -143,3 +143,4 @@ addPanelToVirtualDataRoom(virtualRoomId: string, panelData: any): Observable<any
     return this.http.put<any>(url, updates );
   }
 }
+

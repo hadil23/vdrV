@@ -24,6 +24,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { FormatFileNamePipe } from '../../forms/format-file-name.pipe' ; 
 import { AlertDialogComponent } from '../../forms/alert-dialog/alert-dialog.component';
+import { AddNewGuestComponent } from 'app/routes/forms/add-new-guest/add-new-guest.component';
 export enum defaultGuestPermission {
   NoAccess = 'No Access',
   OnlyView = 'Only View',
@@ -98,6 +99,7 @@ private nzDrawerService = inject (NzDrawerService);
     { id: '3', title: 'Products', files: [], expanded: false },
     { id: '4', title: 'Intellectual Property', files: [], expanded: false }
   ]);
+  isDialogOpen: boolean | undefined;
 
   get panelList(): Panel[] {
     return this.panels(); 
@@ -394,10 +396,37 @@ private nzDrawerService = inject (NzDrawerService);
   }
 
 
- 
+  openAddGuestDialog(): void {
+    this.isDialogOpen = true;
+    const dialogRef = this.dialog.open(AddNewGuestComponent, {
+      width: '300px',
+      panelClass: 'small-dialog',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.isDialogOpen = false;
+    });
+    dialogRef.componentInstance.onInviteClick.subscribe(() => {
+      dialogRef.close();
+    });
+  }
   
 
- 
+  goToAddNewGuest(access: string): void {
+    this.router.navigate(['/forms/add-new-guest'], { queryParams: { 
+      virtualRoomId :this.virtualRoomId,
+      access: access, 
+      permissionParam : this.defaultGuestPermission ,
+      title :  this.virtualDataRoomTitle 
+    } });
+  }
+  goToDraft(): void {
+    this.router.navigate(['/forms/draft'], {
+      queryParams: { id: this.virtualRoomId, title: this.virtualDataRoomTitle }
+  })
+
+  }
   
 }
 

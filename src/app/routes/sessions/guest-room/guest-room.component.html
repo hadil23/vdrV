@@ -1,64 +1,89 @@
-<div class="top-buttons">
-    <button class="btn btn-secondary" (click)="addNewSection()">
-      <i class="fas fa-plus-circle"></i> Add New Section
-    </button>
-    <button class="btn btn-secondary" (click)="downloadAllFiles()">
-      <i class="fas fa-download"></i>
-    </button>
-    <button class="btn btn-secondary" (click)="goToLink(EtafaknaUrl)">
-      Generate Documents
-    </button>
+<div class="sidebar">
+  <div class="logo-container">
+    <img src="images/matero.png" alt="App Logo" class="app-logo">
+    <span> E-Tafakna </span>
   </div>
-  <div class = "header">
+  <div class="panel-titles">
+    <ng-container *ngFor="let panel of panelList">
+      <div class="panel-title-item">
+        <img src="https://icon-library.com/images/folder-icon-download/folder-icon-download-23.jpg" alt="Folder Icon" class="folder-icon">
+        <span>{{ panel.title }}</span>
+      </div>
+    </ng-container>
+    <ng-container *ngFor="let panel of panells()">
+      <div class="panel-title-item">
+        <img src="https://icon-library.com/images/folder-icon-download/folder-icon-download-23.jpg" alt="Folder Icon" class="folder-icon">
+        <span>{{ panel.title }}</span>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+
+<div class="top-buttons">
+  <button class="btn btn-secondary" (click)="addNewSection()">
+    <i class="fas fa-plus-circle"></i> Add New Section
+  </button>
+  <button class="btn btn-secondary" (click)="downloadAllFiles()">
+    <i class="fas fa-download"></i>
+  </button>
+
+</div>
+
+<header class="app-header">
+  <div class="header-title">
     <h4>{{ virtualDataRoomTitle }}</h4>
   </div>
-  
-  
-  <div class="container">
-  
-    <mat-accordion>
-      <!-- Afficher les panneaux statiques -->
-      <ng-container *ngFor="let panel of panells()">
-        <mat-expansion-panel hideToggle>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{ panel.title }}
-            </mat-panel-title>
-            <mat-panel-description>
-              <!-- Ajoutez ici une description si nécessaire -->
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-  
-          <div *ngIf="panel">
-            <app-nz-demo-upload-basic (nzChange)="addFileToPanel(panel, $event)"></app-nz-demo-upload-basic>
-          </div>
-        </mat-expansion-panel>
-      </ng-container>
-  
-      <!-- Afficher les panneaux dynamiques -->
-      <ng-container *ngFor="let panel of panelList">
-        <mat-expansion-panel hideToggle>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{ panel.title}}
-            </mat-panel-title>
-            <mat-panel-description>
-              <!-- Ajoutez ici une description si nécessaire -->
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-  
-          <div *ngIf="panel">
-            <app-nz-demo-upload-basic (nzChange)="addFileToPanel(panel, $event)"></app-nz-demo-upload-basic>
-            <ul>
-              <li *ngFor="let file of panel.files">
-                <a [href]="file.url" target="_blank">  ({{ file.url | formatFileName}})</a>
-              </li>
-            </ul>
-          </div>
-        </mat-expansion-panel>
-      </ng-container>
-    </mat-accordion>
-  
+</header>
 
-  </div>
-  
+<div class="container">
+  <mat-accordion>
+    <!-- Afficher les panneaux statiques -->
+    <ng-container *ngFor="let panel of panells()">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ panel.title }}
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Ajoutez ici une description si nécessaire -->
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div *ngIf="panel">
+          <app-nz-demo-upload-basic (nzChange)="addFileToPanel(panel, $event)"></app-nz-demo-upload-basic>
+        </div>
+      </mat-expansion-panel>
+    </ng-container>
+
+    <!-- Afficher les panneaux dynamiques -->
+    <ng-container *ngFor="let panel of panelList">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ panel.title}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div *ngIf="panel">
+          <app-nz-demo-upload-basic (nzChange)="addFileToPanel(panel, $event)"></app-nz-demo-upload-basic>
+          <ul>
+            <li *ngFor="let file of panel.files">
+              <a [href]="file.url" target="_blank">  ({{ file.url | formatFileName}})</a>
+            </li>
+          </ul>
+        </div>
+      </mat-expansion-panel>
+    </ng-container>
+  </mat-accordion>
+</div>
+
+<div class="bottom-buttons">
+  <button class="btn btn-primary" (click)="openAddGuestDialog()">
+    <i class="fas fa-share"></i>
+  </button>
+
+  <button class="btn btn-primary" (click)="goToDraft()">
+    <i class="fas fa-save"></i>
+  </button>
+</div>

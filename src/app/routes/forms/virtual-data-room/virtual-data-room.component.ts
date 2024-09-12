@@ -24,6 +24,7 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzUploadChangeParam, NzUploadFile } from 'ng-zorro-antd/upload';
 import { FormatFileNamePipe } from '../format-file-name.pipe' ; 
 import { AlertDialogComponent } from '../alert-dialog/alert-dialog.component';
+import Swal from 'sweetalert2';
 export enum defaultGuestPermission {
   NoAccess = 'No Access',
   OnlyView = 'Only View',
@@ -237,61 +238,72 @@ private nzDrawerService = inject (NzDrawerService);
     });
   }
 
-    addFileToPanel(panel: Panel, event: NzUploadChangeParam): void {
-      console.log('addFileToPanel called with panel:', panel);
-      console.log('addFileToPanel called with event:', event);
+  addFileToPanel(panel: Panel, event: NzUploadChangeParam): void {
+    console.log('addFileToPanel called with panel:', panel);
+    console.log('addFileToPanel called with event:', event);
   
-    
-      if (!this.canEdit()) {
-        alert('Denied permission...');
-        return;
-      }
+    if (!this.canEdit()) {
+      alert('Denied permission...');
+      return;
+    }
   
-    
-      const preset = 'ml_default';
-      const userId = '36';
-      const panelId = panel.id;
+    const preset = 'ml_default';
+    const userId = '36';
+    const panelId = panel.id;
   
+    if (event.fileList) {
+      for (const file of event.fileList) {
+        if (file.originFileObj) {
+          const fileObject = file.originFileObj as File;
+          console.log('Uploading file:', fileObject.name);
   
-      if (event.fileList) {
-        for (const file of event.fileList) {
-          if (file.originFileObj) {
-            const fileObject = file.originFileObj as File;
-            console.log('Uploading file:', fileObject.name);
+          this.cloudinaryService.uploadFile(fileObject, preset)
+            .then((result) => {
+              console.log('File uploaded to Cloudinary:', result);
   
-    
-            this.cloudinaryService.uploadFile(fileObject, preset)
-              .then((result) => {
-                console.log('File uploaded to Cloudinary:', result);
+              const fileUrl = result.secure_url;
+              console.log('File URL:', fileUrl);
   
-    
-                const fileUrl = result.secure_url;
-                console.log('File URL:', fileUrl);
+              this.virtualRoomService.saveFileUrlToDatabase(fileUrl, userId, panelId)
+                .subscribe((response) => {
+                  console.log('File URL saved to database successfully:', response);
   
-                this.virtualRoomService.saveFileUrlToDatabase(fileUrl, userId, panelId)
+                  // Afficher l'alerte SweetAlert après un upload réussi
+                  Swal.fire({
+                    title: 'File Uploaded Successfully!',
+                    text: 'The file has been uploaded and saved successfully.',
+                    icon: 'success',
+                    background: '#f8f9fa',
+                    color: '#343a40',
+                    confirmButtonColor: '#007bff',
+                    showConfirmButton: true,
+                    confirmButtonText: 'Okay',
+                    timer: 5000,
+                    timerProgressBar: true
+                  });
+  
+                }, (error) => {
+                  console.error('Error saving file URL to database:', error);
+                });
+  
+              // Sauvegarder seulement si le panel ID existe
+              if (this.panelId) {
+                this.virtualRoomService.saveFileUrlToDatabase(fileUrl, userId, this.panelId)
                   .subscribe((response) => {
                     console.log('File URL saved to database successfully:', response);
                   }, (error) => {
                     console.error('Error saving file URL to database:', error);
                   });
-  
-                // only save the file URL to the database if the panel ID exists
-                if (this.panelId) {
-                  this.virtualRoomService.saveFileUrlToDatabase(fileUrl, userId, this.panelId)
-                    .subscribe((response) => {
-                      console.log('File URL saved to database successfully:', response);
-                    }, (error) => {
-                      console.error('Error saving file URL to database:', error);
-                    });
-                }
-              })
-              .catch((error) => {
-                console.error('Error uploading file to Cloudinary:', error);
-              });
-            }
-          }
+              }
+            })
+            .catch((error) => {
+              console.error('Error uploading file to Cloudinary:', error);
+            });
         }
       }
+    }
+  }
+  
 
  
 
